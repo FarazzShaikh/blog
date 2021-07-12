@@ -9,7 +9,7 @@ import { fps } from "../components/Canvas/scripts/fps";
 export const Default = ({ is404, children, title, style, description, lang, meta, image, pathname, keywords }) => {
   const [isReader, setIsReader] = useState(false);
 
-  setInterval(() => {
+  const interval = setInterval(() => {
     const s = document.querySelector(".warning-container");
     if (fps.value <= 30) {
       if (s && s.style.display !== "block") s.style.display = "block";
@@ -24,14 +24,16 @@ export const Default = ({ is404, children, title, style, description, lang, meta
       <Navbar />
       <div className="warning-container">
         Having trouble running this page?&nbsp;
-        <a
-          style={{ cursor: "pointer" }}
+        <span
+          style={{ cursor: "pointer", color: "blue", textDecoration: "underline" }}
           onClick={() => {
             setIsReader(true);
+            clearInterval(interval);
+            document.querySelector(".warning-container").remove();
           }}
         >
           Switch to reader view.
-        </a>
+        </span>
       </div>
 
       <div style={{ position: "relative", backgroundColor: "transparent" }}>

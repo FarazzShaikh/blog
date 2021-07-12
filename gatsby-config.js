@@ -54,7 +54,7 @@ module.exports = {
     {
       resolve: `gatsby-transformer-remark`,
       options: {
-        plugins: [`gatsby-remark-reading-time`, `gatsby-remark-emoji-unicode`],
+        plugins: [`gatsby-remark-reading-time`],
       },
     },
     {
@@ -62,7 +62,6 @@ module.exports = {
       options: {
         extensions: [`.mdx`, `.md`],
         gatsbyRemarkPlugins: [
-          `gatsby-remark-katex`,
           "gatsby-remark-code-titles",
           {
             resolve: `gatsby-remark-prismjs`,

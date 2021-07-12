@@ -19,7 +19,7 @@ const Index = ({
   return (
     <Default is404={false} title="" description="A list of all my posts. Stuff I find cool, intresting, or both." pathname={location.pathname}>
       <div id="stories" className="columns is-mobile">
-        <div className="column" style={{ zIndex: 1, backgroundColor: "transparent" }}>
+        <div className="column is-above-canvas">
           <div>
             <h1 className="title is-2">Stories</h1>
             <h4 className="subtitle is-4 mt-1">Sometimes I write about things I find cool, intresting, or both.</h4>
@@ -27,14 +27,10 @@ const Index = ({
           {left}
         </div>
 
-        <div className="column" style={{ zIndex: 1, backgroundColor: "transparent" }}>
-          {right}
-        </div>
+        <div className="column is-above-canvas">{right}</div>
       </div>
 
-      <div className="has-text-centered is-6" style={{ zIndex: 1, backgroundColor: "transparent" }}>
-        More coming soon...
-      </div>
+      <div className="has-text-centered is-6 is-above-canvas">More coming soon...</div>
     </Default>
   );
 };
@@ -56,9 +52,7 @@ export const pageQuery = graphql`
             summary
             featuredImage {
               childImageSharp {
-                fluid(maxWidth: 800) {
-                  ...GatsbyImageSharpFluid
-                }
+                gatsbyImageData(layout: FULL_WIDTH)
               }
               extension
               publicURL

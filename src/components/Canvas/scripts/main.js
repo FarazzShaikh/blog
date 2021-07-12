@@ -35,7 +35,7 @@ export function main(canvas, is404) {
   floor(scene);
 
   document.getScroll = function () {
-    if (window.pageYOffset != undefined) {
+    if (window.pageYOffset !== undefined) {
       return new THREE.Vector2(window.pageXOffset, window.pageYOffset);
     } else {
       var sx,

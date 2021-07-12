@@ -289,7 +289,11 @@ code.highlighter-rouge {
 	// We only do it on body as `filter` doesn't apply to the overscroll.
 	body {
 		background-color: #eff2f9;
-		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
+        filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
+	}
+
+    canvas {
+		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
 	}
 
 	* {
@@ -298,7 +302,6 @@ code.highlighter-rouge {
 
 	img,
 	iframe,
-    canvas,
 	body * [style*="background-image"],
 	.no-dark-mode {
 		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
@@ -449,6 +452,11 @@ footer {
         color: white;
     }
 
+}
+
+.is-above-canvas {
+    z-index: 1;
+    background-color: transparent;
 }
 
 

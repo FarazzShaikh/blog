@@ -10,7 +10,7 @@ export function CanvasProvider({ script, style, is404 }) {
     return () => {
       dispose();
     };
-  }, []);
+  }, [ref, is404, script]);
 
   return <canvas className="is-unclickable" style={style} ref={ref} />;
 }

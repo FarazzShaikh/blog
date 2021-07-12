@@ -40,6 +40,7 @@ export const Canvas = ({ is404, isReader }) => {
   return (
     <>
       <div
+        className="_3d"
         style={{
           position: "absolute",
           top: 0,

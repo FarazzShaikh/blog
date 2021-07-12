@@ -1,12 +1,6 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-let renderer, scene, camera, controls;
-
-function deviceType() {
-  if (window.innerWidth <= 1024) return "mobile";
-  else return "desktop";
-}
+let renderer, scene, camera;
 
 /**
  *
@@ -69,19 +63,8 @@ export function render(dt, callback) {
   renderer.render(scene, camera);
   ID = requestAnimationFrame((dt) => render(dt, callback));
 
-  //   controls.update();
-
   //   console.log(renderer.info.render.calls);
   //   renderer.info.reset();
 
   callback(dt, ID);
 }
-
-// window.addEventListener("resize", onWindowResize, false);
-
-// function onWindowResize() {
-//   const canvas = document.querySelector(".three canvas");
-//   camera.aspect = canvas.clientWidth / canvas.clientHeight;
-//   camera.updateProjectionMatrix();
-//   renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-// }
