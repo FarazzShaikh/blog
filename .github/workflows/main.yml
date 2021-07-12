@@ -1,17 +1,23 @@
 name: Build and Deploy
 
-on: push
+on:
+  push:
+    branches:
+      - master
 
 jobs:
-  jekyll:
+  gatsby:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          submodules: "true"
 
-      - uses: enriikke/gatsby-gh-pages-action@v2
+      - name: Build
+        run: |
+          npm ci
+          npm run build
+
+      - name: Publish
+        uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
-          access-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-branch: gh-pages
-          gatsby-args: --prefix-paths
+          branch: gh-pages
+          folder: public
