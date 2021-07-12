@@ -1,0 +1,105 @@
+{
+    "asset" : {
+        "generator" : "Khronos glTF Blender I/O v1.4.40",
+        "version" : "2.0"
+    },
+    "scene" : 0,
+    "scenes" : [
+        {
+            "name" : "Scene",
+            "nodes" : [
+                0
+            ]
+        }
+    ],
+    "nodes" : [
+        {
+            "mesh" : 0,
+            "name" : "Text.002",
+            "translation" : [
+                -0.5564295053482056,
+                0.024999871850013733,
+                -0.21581991016864777
+            ]
+        }
+    ],
+    "meshes" : [
+        {
+            "name" : "Text.007",
+            "primitives" : [
+                {
+                    "attributes" : {
+                        "POSITION" : 0,
+                        "NORMAL" : 1,
+                        "TEXCOORD_0" : 2
+                    },
+                    "indices" : 3
+                }
+            ]
+        }
+    ],
+    "accessors" : [
+        {
+            "bufferView" : 0,
+            "componentType" : 5126,
+            "count" : 4470,
+            "max" : [
+                0.29297295212745667,
+                0.025000130757689476,
+                0.2954265773296356
+            ],
+            "min" : [
+                -0.27464398741722107,
+                -0.024999871850013733,
+                -0.2755514085292816
+            ],
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 1,
+            "componentType" : 5126,
+            "count" : 4470,
+            "type" : "VEC3"
+        },
+        {
+            "bufferView" : 2,
+            "componentType" : 5126,
+            "count" : 4470,
+            "type" : "VEC2"
+        },
+        {
+            "bufferView" : 3,
+            "componentType" : 5123,
+            "count" : 6288,
+            "type" : "SCALAR"
+        }
+    ],
+    "bufferViews" : [
+        {
+            "buffer" : 0,
+            "byteLength" : 53640,
+            "byteOffset" : 0
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 53640,
+            "byteOffset" : 53640
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 35760,
+            "byteOffset" : 107280
+        },
+        {
+            "buffer" : 0,
+            "byteLength" : 12576,
+            "byteOffset" : 143040
+        }
+    ],
+    "buffers" : [
+        {
+            "byteLength" : 155616,
+            "uri" : "bracket.bin"
+        }
+    ]
+}
