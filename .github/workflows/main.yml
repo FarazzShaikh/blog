@@ -1,0 +1,17 @@
+name: Build and Deploy
+
+on: push
+
+jobs:
+  jekyll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: "true"
+
+      - uses: enriikke/gatsby-gh-pages-action@v2
+        with:
+          access-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-branch: gh-pages
+          gatsby-args: --prefix-paths
