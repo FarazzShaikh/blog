@@ -1,29 +1,31 @@
 module.exports = {
   siteMetadata: {
-    siteUrl: "https://www.yourdomain.tld",
-    title: "blog.farazshaikh.com",
+    siteUrl: "https://blog.farazshaikh.com",
+    title: "Faraz's Blog",
+    discription: "Faraz's Blog Site",
+    author: "Faraz Shaikh",
+    keywords: ["blog", "Faraz's Blog", "writing", "tech", "programming", "computers", "graphics"],
+  },
+  flags: {
+    DEV_SSR: false,
   },
   plugins: [
     "gatsby-plugin-image",
-    {
-      resolve: "gatsby-plugin-google-analytics",
-      options: {
-        trackingId: "G-84C409XHBJ",
-      },
-    },
     "gatsby-plugin-react-helmet",
     "gatsby-plugin-sitemap",
-    "gatsby-plugin-mdx",
-    "gatsby-plugin-sharp",
     "gatsby-transformer-sharp",
+    `gatsby-transformer-remark`,
+    "gatsby-plugin-sass",
+    `gatsby-remark-images`,
+    "gatsby-plugin-sharp",
     {
-      resolve: "gatsby-source-filesystem",
+      resolve: `gatsby-plugin-goatcounter`,
       options: {
-        name: "images",
-        path: "./src/images/",
+        code: "blog-farazshaikh",
+        head: true,
       },
-      __key: "images",
     },
+
     {
       resolve: "gatsby-source-filesystem",
       options: {
@@ -31,6 +33,63 @@ module.exports = {
         path: "./src/pages/",
       },
       __key: "pages",
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `posts`,
+        path: `./src/posts/`,
+      },
+      __key: "posts",
+    },
+    {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        name: `images`,
+        path: `./src/images/`,
+      },
+      __key: "images",
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-reading-time`, `gatsby-remark-emoji-unicode`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+        gatsbyRemarkPlugins: [
+          `gatsby-remark-katex`,
+          "gatsby-remark-code-titles",
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {
+                sh: "bash",
+                js: "javascript",
+              },
+              showLineNumbers: false,
+              noInlineHighlight: true,
+            },
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options: {
+              ignoreFileExtensions: [`png`, `jpg`, `jpeg`, `bmp`, `tiff`],
+            },
+          },
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1200,
+            },
+          },
+        ],
+      },
     },
   ],
 };

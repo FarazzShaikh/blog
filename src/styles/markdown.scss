@@ -1,0 +1,48 @@
+@import "./main";
+
+$font-stack: 
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+
+.content blockquote {
+    border-left: none;
+    background-color: transparent;
+    text-align: center;
+    font-family: 
+        'Cinzel',
+        $font-stack;
+    color: #111;
+    font-size: 18px;
+    font-style: italic;
+}
+
+code {
+    font-family: 'Fira Code', monospace, $font-stack !important;
+    background-color: #93a0b5;
+    color: black;
+    letter-spacing: 0.025em;
+    border-radius: 5px;
+    padding: 0.2em 0.5em;
+}
+
+.gatsby-code-title {
+    margin-bottom: -0.6rem;
+    padding: 0.5em 1em;
+    font-family: 'Fira Code', monospace, $font-stack !important;
+  
+    background-color: #93a0b5;
+    color: #3f3f3f;
+    z-index: 0;
+  
+    border-top-left-radius: 0.3em;
+    border-top-right-radius: 0.3em;
+}

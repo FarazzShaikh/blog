@@ -1,0 +1,439 @@
+@import './bulma/utilities/initial-variables';
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;700;900&family=Fauna+One&family=Fira+Code&display=swap');
+
+
+@import './bulma/bulma';
+
+
+$primary: $blue;
+$grey-darker: #111;
+
+
+$font-stack: 
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    'Segoe UI Symbol';
+
+h1, h2, h3, #unicorn-btn {
+    font-family: 
+        'Cinzel',
+        serif,
+        $font-stack;
+}
+
+#unicorn-btn {
+    color: black;
+    font-size: large;
+    font-style: italic;
+}
+
+.title, span, p, li {
+    color: black;
+}
+
+h4, h5, h6, p, div, span:not(code span) {
+    font-family: 
+        "Fauna One",
+        serif,
+        $font-stack;
+}
+
+h1 {
+    font-weight: bold;
+    margin: 0 !important;
+}
+
+h2 {
+    margin-top: 0 !important;
+    font-style: italic;
+    font-weight: 400 !important;
+    color: #4a4a4a !important;
+}
+
+
+html {
+	scroll-behavior: smooth;
+    hyphens: auto;
+
+    font-size: 16px;
+
+    nav {
+        font-size: 12px;
+    }
+
+    @include tablet {
+      font-size: 16px;
+    }
+    @include desktop {
+      font-size: 16px;
+      nav {
+        font-size: 16px;
+      }
+    }
+
+}
+
+body {
+	font-family:
+		-apple-system,
+		BlinkMacSystemFont,
+		'Segoe UI',
+		Roboto,
+		Helvetica,
+		Arial,
+		sans-serif,
+		'Apple Color Emoji',
+		'Segoe UI Emoji',
+		'Segoe UI Symbol';
+        min-height: 100vh;
+        // overflow: hidden;
+        background-color: #eff2f9;
+        
+
+}
+
+main {
+    width: 100vw;
+    height: auto;
+    position: relative;
+}
+
+
+.tag.is-small {
+	font-size: 0.6rem;
+	line-height: 1;
+	font-weight: 500;
+}
+
+.tag {
+	color: hsl(0, 0%, 25%);
+}
+
+.navbar > .container .navbar-menu,
+.container > .navbar .navbar-menu {
+	margin-right: unset;
+}
+
+
+.navbar {
+    background-color: #eff2f9;
+}
+
+
+.navbar-item {
+	padding-left: 1rem;
+	padding-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbar-item.is-active {
+	border-color: transparent !important;
+}
+
+a.navbar-item:not(.button) {
+	color: hsla(0, 0%, 46%, 1);
+}
+
+a.navbar-item:hover {
+	background-color: unset;
+}
+
+.has-nice-link a:not(.button):not(.no-underline):not(.tag) {
+	box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+}
+
+.has-nice-link a:not(.button):not(.no-underline):not(.tag):hover {
+	box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.nice-link {
+	box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.1);
+
+	&:hover {
+		box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.3);
+	}
+}
+
+.is-primary .has-nice-link a:not(.button):not(.no-underline):not(.tag) {
+	box-shadow: inset 0 -1px 0 0 rgba(255, 255, 255, 0.5);
+}
+
+.is-primary .has-nice-link a:not(.button):not(.no-underline):not(.tag):hover {
+	box-shadow: inset 0 -2px 0 0 rgba(255, 255, 255, 0.7);
+}
+
+
+.is-dark-text * {
+	color: #363636 !important;
+}
+
+.is-centered {
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#info-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+#info-container .columns {
+	margin-bottom: 60px;
+}
+
+@media screen and (max-width: 500px) {
+	#info-container .columns {
+		margin-bottom: 20px;
+	}
+}
+
+#profile-pic {
+	margin-bottom: 10px;
+	border-radius: 80px;
+}
+
+#scroll-hint {
+	opacity: 0.5;
+	transition: opacity 0.5s ease-out !important;
+}
+
+#scroll-hint.hidden {
+	opacity: 0;
+}
+
+#latest-blog-post-separator {
+	opacity: 0.7;
+}
+
+#latest-blog-post {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 80px;
+	max-width: 600px;
+	margin-top: 20px;
+	margin-left: auto;
+	margin-right: auto;
+	opacity: 0;
+	transition: opacity 0.8s ease-in;
+}
+
+#latest-blog-post .title {
+	font-size: 1.1rem;
+	margin-bottom: 0.5rem;
+}
+
+#latest-blog-post p {
+	font-size: 12px;
+	max-width: 400px;
+	text-align: center;
+}
+
+#latest-blog-post.visible {
+	opacity: 1;
+}
+
+#unicorn-btn {
+	transition: transform 0.3s ease-in-out;
+}
+
+
+#unicorn-icon {
+	margin-top: -80px;
+	margin-bottom: 20px;
+}
+
+#projects {
+	opacity: 0;
+	transition: opacity 0.5s ease-in;
+}
+
+#projects p {
+	font-size: 16px;
+}
+
+/* inline codeblock */
+code.highlighter-rouge {
+	color: #8f3d74;
+	word-break: break-all;
+}
+
+@media screen and (max-width: 500px) {
+	.is-hidden-small-screen {
+		display: none !important;
+	}
+}
+
+
+.is-unclickable {
+	pointer-events: none;
+}
+
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		background-color: #11131a !important;
+	}
+
+	// We only do it on body as `filter` doesn't apply to the overscroll.
+	body {
+		background-color: #eff2f9;
+		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
+	}
+
+	* {
+		background-color: inherit;
+	}
+
+	img,
+	iframe,
+    canvas,
+	body * [style*="background-image"],
+	.no-dark-mode {
+		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+		background-color: unset !important;
+	}
+
+    pre {
+		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+	}
+}
+
+.icon svg {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    overflow: hidden;
+}
+
+.box {
+    cursor: pointer;
+    box-shadow: none;
+    transition: 200ms box-shadow ease-in-out;
+    flex-grow: 1;
+    background-color: #eff2f9;
+    border-radius: 10px;
+}
+
+
+
+.box figure {
+    overflow: hidden;
+    object-fit: cover;
+    overflow: hidden;
+    
+}
+
+.image {
+    margin-bottom: 0.5em;
+}
+
+figure .gatsby-image-wrapper,
+figure img {
+    transition: 200ms transform ease-in-out;
+}
+
+
+a.box:hover,
+a.box:focus {
+    box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px black;
+}
+
+
+.footer {
+    background-color: #eff2f9;
+    padding: 0;
+    margin: 0% 5%;
+    padding-top: 5%;
+
+    border-top: 1px solid black;
+}
+
+
+footer {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .icons {
+        margin: 16px;
+    }
+
+    .icon {
+        width: 24px !important; 
+        height: 24px !important;       
+    }
+
+    .column {
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+    }
+
+    a {
+        text-decoration: none;
+        transition: color 200ms ease-in-out;
+    }
+
+}
+
+.main-container {
+    margin: 0% 15%;
+}
+
+
+@media only screen and (max-width: 1024px) {
+    footer {
+        flex-direction: column;
+        text-align: center;
+
+        .column {
+            justify-content: center;
+        }
+    }
+   
+    .main-container {
+        margin: 0% 10%;
+    }
+
+    #stories.columns {
+        flex-direction: column;
+    }
+    
+}
+
+
+
+.self-photo {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
+  }
+
+
+
+.hero-head {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 1000;
+    top: 0;
+}
+
+.title._404 {
+    font-size: 5em;
+    color: #573113;
+}

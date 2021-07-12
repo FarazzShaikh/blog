@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <style>
+    body {
+      background-color: #0f121c;
+      height: 200vh;
+      width: 100vw;
+    }
+
+    canvas {
+      width: 100vw;
+      height: 100vh;
+
+      position: sticky;
+      top: 0;
+    }
+  </style>
+  <body>
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.skypack.dev/three",
+          "three/examples/jsm/loaders/GLTFLoader": "https://cdn.skypack.dev/three/examples/jsm/loaders/GLTFLoader",
+          "three/examples/jsm/controls/OrbitControls": "https://cdn.skypack.dev/three/examples/jsm/controls/OrbitControls"
+        }
+      }
+    </script>
+    <canvas></canvas>
+    <script defer type="module">
+      import { main } from "./main.js";
+      const canvas = document.querySelector("canvas");
+      main(canvas);
+    </script>
+  </body>
+</html>
