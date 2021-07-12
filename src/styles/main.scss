@@ -322,8 +322,10 @@ code.highlighter-rouge {
     box-shadow: none;
     transition: 200ms box-shadow ease-in-out;
     flex-grow: 1;
-    background-color: #eff2f9;
+    background-color: #eff2f947;
     border-radius: 10px;
+    transition: 200ms background-color ease-in-out;
+
 }
 
 
@@ -344,10 +346,14 @@ figure img {
     transition: 200ms transform ease-in-out;
 }
 
+.box:hover {
+    background-color: #eff2f9;
+}
 
 a.box:hover,
 a.box:focus {
     box-shadow: 0 0.5em 1em -0.125em rgb(10 10 10 / 10%), 0 0 0 1px black;
+    
 }
 
 
@@ -436,4 +442,23 @@ footer {
 .title._404 {
     font-size: 5em;
     color: #573113;
+}
+
+#__react-alert__ {
+    span {
+        color: white;
+    }
+
+}
+
+
+.warning-container {
+    width: 100vw;
+    background-color: #ffa8a8;
+    z-index: 10000;
+    padding: 0.2em;
+    text-align: center;
+    font-weight: bold;
+    display: none;
+    z-index: 1 !important; 
 }

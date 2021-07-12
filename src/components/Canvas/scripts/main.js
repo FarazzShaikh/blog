@@ -2,7 +2,8 @@ import * as THREE from "three";
 import { floor } from "./floor.js";
 import lights from "./lights.js";
 import { particle } from "./particle.js";
-import { initHelpers, initScene, render } from "./setup.js";
+import { initScene, render } from "./setup.js";
+import { fps } from "./fps.js";
 
 export function main(canvas, is404) {
   canvas.style.width = "100vw";
@@ -16,12 +17,17 @@ export function main(canvas, is404) {
 
   let _4, _0, _42, brackets, semicolon, equals;
   if (is404) {
+    // _4 = particle(scene, 0xfe8f35, "../../../../static/models/4.gltf");
+    // _42 = particle(scene, 0x7421fa, "../../../../static/models/4.gltf");
+    // _0 = particle(scene, 0x0fb281, "../../../../static/models/0.gltf");
     _4 = particle(scene, 0xfe8f35, "/models/4.gltf");
     _42 = particle(scene, 0x7421fa, "/models/4.gltf");
     _0 = particle(scene, 0x0fb281, "/models/0.gltf");
   } else {
+    // brackets = particle(scene, 0xfe8f35, "../../../../static/models/bracket.gltf");
+    // semicolon = particle(scene, 0x0fb281, "../../../../static/models/semicolon.gltf");
+    // equals = particle(scene, 0x7421fa, "../../../../static/models/equals.gltf");
     brackets = particle(scene, 0xfe8f35, "/models/bracket.gltf");
-    //   const bracket2 = particle(scene, 0x7421fa, "/models/bracket2.gltf");
     semicolon = particle(scene, 0x0fb281, "/models/semicolon.gltf");
     equals = particle(scene, 0x7421fa, "/models/equals.gltf");
   }
@@ -67,15 +73,17 @@ export function main(canvas, is404) {
 
     ID = _ID;
     T++;
+    fps.tick();
   };
 
   let cancled = false;
-  window.addEventListener("scroll", () => {
+  const scrollListner = () => {
     const scroll = document.getScroll();
     // targetPos.y = scroll.y / 100;
 
-    let y = scroll.y / (window.innerHeight * 0.3) + 0.2;
+    let y = scroll.y / (window.innerHeight * 0.3);
 
+    if (y <= 0) y = 0.2;
     if (y > 1) y = 1;
 
     y = 1 - y;
@@ -92,7 +100,14 @@ export function main(canvas, is404) {
         cancled = false;
       }
     }
-  });
+  };
+  window.addEventListener("scroll", scrollListner);
 
   render(T, callback);
+
+  return () => {
+    window.removeEventListener("scroll", scrollListner);
+    cancelAnimationFrame(ID);
+    fps.value = 100;
+  };
 }

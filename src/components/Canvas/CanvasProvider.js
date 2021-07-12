@@ -5,8 +5,12 @@ export function CanvasProvider({ script, style, is404 }) {
 
   useEffect(() => {
     const canvas = ref.current;
-    script(canvas, is404);
+    const dispose = script(canvas, is404);
+
+    return () => {
+      dispose();
+    };
   }, []);
 
-  return <canvas style={style} ref={ref} />;
+  return <canvas className="is-unclickable" style={style} ref={ref} />;
 }
