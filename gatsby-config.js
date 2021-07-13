@@ -9,7 +9,7 @@ module.exports = {
   flags: {
     DEV_SSR: false,
   },
-  pathPrefix: "/blog",
+  //   pathPrefix: "/blog",
   plugins: [
     "gatsby-plugin-image",
     "gatsby-plugin-react-helmet",
