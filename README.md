@@ -1,12 +1,12 @@
 <p align="center">
-  <h3 align="center">👻</h3>
-  <h1 align="center">Home</h1>
-    <h3 align="center">farazshaikh.com</h3>
+  <h3 align="center">📖</h3>
+  <h1 align="center">Blog</h1>
+    <h3 align="center">blog.farazshaikh.com</h3>
   
   <p align="center">
     This repo contains the code for my blog site.
     <br />
-    <a href="https://farazshaikh.com">Launch Site</a>
+    <a href="https://blog.farazshaikh.com">Launch Site</a>
     ·
     <a href="mailto:farazzshaikh@gmail.com">Report Bug</a>
   </p>
