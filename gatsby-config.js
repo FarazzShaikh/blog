@@ -1,10 +1,10 @@
 module.exports = {
   siteMetadata: {
     siteUrl: "https://blog.farazshaikh.com",
-    title: "Faraz's Blog",
-    discription: "Faraz's Blog Site",
+    title: "Faraz Shaikh's blog",
+    discription: "Personal Blog Site of Faraz Shaikh",
     author: "Faraz Shaikh",
-    keywords: ["blog", "Faraz's Blog", "writing", "tech", "programming", "computers", "graphics"],
+    keywords: ["blog", "faraz", "shaikh", "writing", "tech", "programming", "computers", "graphics", "react", "gatsby"],
   },
   flags: {
     DEV_SSR: false,

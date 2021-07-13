@@ -6,7 +6,7 @@ import { Navbar } from "../components/Navbar";
 
 import { fps } from "../components/Canvas/scripts/fps";
 
-export const Default = ({ is404, children, title, style, description, lang, meta, image, pathname, keywords }) => {
+export const Default = ({ is404, children, title, style, description, lang, meta, image, pathname, keywords, glyph }) => {
   const [isReader, setIsReader] = useState(false);
 
   const interval = setInterval(() => {
@@ -20,7 +20,7 @@ export const Default = ({ is404, children, title, style, description, lang, meta
 
   return (
     <main>
-      <Head title={title} description={description} lang={lang} meta={meta} image={image} pathname={pathname} keywords={keywords} />
+      <Head glyph={glyph} title={title} description={description} lang={lang} meta={meta} image={image} pathname={pathname} keywords={keywords} />
       <Navbar />
       <div className="warning-container">
         Having trouble running this page?&nbsp;

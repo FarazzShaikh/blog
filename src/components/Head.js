@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Helmet } from "react-helmet";
 import { useStaticQuery, graphql } from "gatsby";
 
-export const Head = ({ description, lang, meta, image: metaImage, title, pathname, keywords }) => {
+export const Head = ({ description, lang, meta, image: metaImage, title, pathname, keywords, glyph }) => {
   const { site } = useStaticQuery(
     graphql`
       query {
@@ -22,6 +22,9 @@ export const Head = ({ description, lang, meta, image: metaImage, title, pathnam
   const metaDescription = description || site.siteMetadata.description;
   const image = metaImage && metaImage.src ? `${site.siteMetadata.siteUrl}${metaImage.src}` : null;
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null;
+
+  const icon = glyph || "📖";
+  const iconHref = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>${icon}</text></svg>`;
 
   return (
     <Helmet
@@ -102,7 +105,9 @@ export const Head = ({ description, lang, meta, image: metaImage, title, pathnam
               ]
         )
         .concat(meta)}
-    />
+    >
+      <link rel="icon" href={iconHref} />
+    </Helmet>
   );
 };
 Head.defaultProps = {

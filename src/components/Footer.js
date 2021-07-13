@@ -2,6 +2,7 @@ import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArtstation, faBitcoin, faEthereum, faGithub, faInstagram, faLinkedin, faMedium, faPaypal, faReddit } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelopeOpen, faIdCard } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "gatsby";
 
 export const Footer = () => {
   return (
@@ -53,19 +54,16 @@ export const Footer = () => {
 
       <div style={{ flex: 1, textAlign: "center" }}>
         <p className="title is-6">
-          <strong>
-            Made with <span className="no-dark-mode">❤️</span>
-          </strong>{" "}
-          by <b>Faraz Shaikh</b>.
+          Made with <span className="no-dark-mode">❤️</span> by{" "}
+          <a href="https://farazshaikh.com" target="_blank" rel="noreferrer">
+            Faraz Shaikh
+          </a>
+          <sup>©</sup>
         </p>
 
         <p>
           <a href="https://github.com/FarazzShaikh/home" target="_blank" rel="noreferrer">
             Source Code
-          </a>
-          &ensp;•&ensp;
-          <a href="{% link pages/privacy-policy.md %}" target="_blank">
-            Privacy Policy
           </a>
         </p>
 
