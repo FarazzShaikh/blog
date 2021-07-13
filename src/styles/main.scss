@@ -8,6 +8,10 @@
 $primary: $blue;
 $grey-darker: #111;
 
+$bg-dark: #11131a;
+$bg-light: #eff2f9;
+$bg-light-transparent: #eff2f947;
+
 
 $font-stack: 
     -apple-system,
@@ -94,7 +98,8 @@ body {
 		'Segoe UI Symbol';
         min-height: 100vh;
         // overflow: hidden;
-        background-color: #eff2f9;
+        background-color: $bg-light;
+        transition: 200ms background-color ease-in-out;
         
 
 }
@@ -123,7 +128,7 @@ main {
 
 
 .navbar {
-    background-color: #eff2f9;
+    background-color: $bg-light;
 }
 
 
@@ -282,34 +287,52 @@ code.highlighter-rouge {
 
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		background-color: #11131a !important;
-	}
+	// :root {
+	// 	background-color: #11131a !important;
+	// }
 
-	// We only do it on body as `filter` doesn't apply to the overscroll.
-	body {
-		background-color: #eff2f9;
-        filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
-	}
+	// // We only do it on body as `filter` doesn't apply to the overscroll.
+	// body {
+	// 	background-color: $bg-light;
+    //     filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
+	// }
 
-    canvas {
-		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
-	}
+    // canvas {
+	// 	filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+	// }
 
-	* {
-		background-color: inherit;
-	}
+	// * {
+	// 	background-color: inherit;
+	// }
 
-	img,
+	
+
+    // pre {
+	// 	filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+	// }
+
+        .main-container {
+            filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        }
+
+        .hero-head {
+            filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        }
+
+        footer {
+            filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        }
+
+        body {
+            background-color: $bg-dark;
+        }
+
+        img,
 	iframe,
 	body * [style*="background-image"],
 	.no-dark-mode {
 		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
 		background-color: unset !important;
-	}
-
-    pre {
-		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
 	}
 }
 
@@ -325,7 +348,7 @@ code.highlighter-rouge {
     box-shadow: none;
     transition: 200ms box-shadow ease-in-out;
     flex-grow: 1;
-    background-color: #eff2f947;
+    background-color: $bg-light-transparent;
     border-radius: 10px;
     transition: 200ms background-color ease-in-out;
 
@@ -350,7 +373,7 @@ figure img {
 }
 
 .box:hover {
-    background-color: #eff2f9;
+    background-color: $bg-light;
 }
 
 a.box:hover,
@@ -360,17 +383,15 @@ a.box:focus {
 }
 
 
-.footer {
-    background-color: #eff2f9;
+footer {
+    background-color: transparent;
+    z-index: 1;
+
     padding: 0;
     margin: 0% 5%;
     padding-top: 5%;
 
     border-top: 1px solid black;
-}
-
-
-footer {
 
     display: flex;
     justify-content: space-between;

@@ -5,7 +5,7 @@ import { faEnvelopeOpen, faIdCard } from "@fortawesome/free-solid-svg-icons";
 
 export const Footer = () => {
   return (
-    <footer className="footer has-nice-link no-print" style={{ zIndex: 1, backgroundColor: "transparent" }}>
+    <footer className="has-nice-link no-print">
       <div style={{ display: "flex", flexDirection: "column", flex: 1 }}>
         <h4 className="title is-6 mb-0">Support me</h4>
         <div className="column has-nice-link">

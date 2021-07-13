@@ -5,7 +5,7 @@ import { Default } from "../layouts/default";
 const NotFoundPage = () => {
   return (
     <Default is404={true} title="Not Found" description="I haven't written about this yet!">
-      <div style={{ height: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center" }}>
+      <div style={{ height: "80vh", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", textAlign: "center" }}>
         <h1 className="title is-1 _404 is-italic is-above-canvas">404</h1>
         <h4 className="subtitle is-3 mt-1 _404 is-above-canvas">I haven't written about this yet!</h4>
         <span className="is-above-canvas">
