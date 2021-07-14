@@ -62,7 +62,7 @@ export const Footer = () => {
         </p>
 
         <p>
-          <a href="https://github.com/FarazzShaikh/home" target="_blank" rel="noreferrer">
+          <a href="https://github.com/FarazzShaikh/blog" target="_blank" rel="noreferrer">
             Source Code
           </a>
           <b>&ensp;•&ensp;</b>
