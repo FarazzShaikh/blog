@@ -25,7 +25,7 @@
 
 <br />
 <p align="center">
-    <img src="Assets/banner.PNG"></img>
+    <img src="Assets/banner.png"></img>
     Made using Gatsby (so React) and ThreeJS.
 </p>
 <br />
