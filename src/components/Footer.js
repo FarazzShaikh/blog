@@ -65,6 +65,8 @@ export const Footer = () => {
           <a href="https://github.com/FarazzShaikh/home" target="_blank" rel="noreferrer">
             Source Code
           </a>
+          <b>&ensp;•&ensp;</b>
+          <Link to="/privacy/">Privacy Policy</Link>
         </p>
 
         <br />

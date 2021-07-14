@@ -18,6 +18,27 @@ export const Default = ({ is404, children, title, style, description, lang, meta
     }
   }, 1000);
 
+  console.log(`
+    .__________________________.
+    | .___________________. |==|
+    | | Hello,            | |  |
+    | |   fellow dev!     | |  |
+    | |                   | |  |
+    | | Found something   | |  |
+    | | wrong? Email me!  | |  |
+    | |                   | |  |
+    | | farazzshaikh      | |  |
+    | |        @gmail.com | | ,|
+    | !___________________! |(c|
+    !_______________________!__!
+   /                            \\
+  /  [][][][][][][][][][][][][]  \\
+ /  [][][][][][][][][][][][][][]  \\
+(  [][][][][____________][][][][]  )
+ \\ ------------------------------ /
+  \\______________________________/
+        `);
+
   return (
     <main>
       <Head glyph={glyph} title={title} description={description} lang={lang} meta={meta} image={image} pathname={pathname} keywords={keywords} />

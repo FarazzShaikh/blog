@@ -44,10 +44,9 @@ export const Navbar = ({ isRoot }) => {
           <div className="hero-head no-print">
             <div className="container" style={{ position: "relative" }}>
               <nav className="navbar has-shadow pt-2 pb-2 pl-4 pr-4" role="navigation" aria-label="main navigation" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                <a id="unicorn-btn" className="navbar-item" target="_blank" href="https://farazshaikh.com" title="Who am I?" style={{ color: "black" }} rel="noreferrer">
+                <a id="unicorn-btn" className="navbar-item" style={{ color: "black" }} href="https://farazshaikh.com" target="_blank" rel="noreferrer">
                   Faraz Shaikh
                 </a>
-                <div></div>
                 <div className="is-fixed-top">
                   <div className="navbar-end" style={{ display: "flex" }}>
                     <Link className="navbar-item is-tab" style={{ color: "black" }} to="/">

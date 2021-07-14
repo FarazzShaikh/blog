@@ -27,7 +27,7 @@ export default function Template(props) {
           <Image post={mdx} />
           <br />
         </div>
-        <div className="content" style={{ textAlign: "justify" }}>
+        <div className="content" style={{ textAlign: "justify", hyphens: "auto" }}>
           <MDXRenderer>{body}</MDXRenderer>
         </div>
       </div>
