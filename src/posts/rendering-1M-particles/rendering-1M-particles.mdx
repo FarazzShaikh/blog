@@ -1,0 +1,263 @@
+---
+title: Rendering 1M+ Particles
+subtitle: Using Points and Shaders.
+summary: Learning to render a massive amount of particles in ThreeJS.
+date: "2021-07-19T11:59:52.488Z"
+tags: ["noise", "procedural", "generation", "math", "graphcis", "computer", "3D", "CGI", "particles", "cool math", "demo"]
+slug: /stories/rendering-1-m-particles/
+featuredImage: ../../images/rendering-1M-particles.jpg
+---
+
+import { CanvasProvider, RepoCard } from "mdx-components";
+import { main } from "./src/main";
+
+I don't know what it is about Fluid and Flow simulations that fascinate me. My interest peaked after seeing [Misaki Nakano's CodePen](https://codepen.io/mnmxmx/pen/rzqoeW) and [this article by Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/).
+
+Daniel's article (which is an excellent read) uses ThreeJS to render ~100K particles. He uses [Instancing](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/#Reducing-draw-calls-by-Instancing-Geometries) to render an obscene amount spheres into his scene **at the cost of only 1 draw call.** He also uses Shaders to move the particles around on the GPU which results in blazing-fast results. He was able to render ~100K spheres this way, in real-time.
+
+> While this is impressive, In this article, we will take this 10 steps further - **1 Million particles!**
+
+Daniel's article also uses an older version of ThreeJS that is not compatible with the latest versions, thus this article will be an up-to-date guide.
+
+# Spawning Particles
+
+This technique involves using ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us spawn 2D representations of points on each vertex of its associated geometry. Thus, if we can make a geometry with 1 million vertices, we can get 1 million particles.
+
+Of course, we can generate our own `BufferGeometry` or use an imported model but we can also do this trivially using inbuilt Geometries. I will use the `IcosahedronGeometry` as it has a more uniform distribution of vertices
+
+> The `SphereGeometry` pinches its vertices at its poles.
+
+```js
+// Creating the Icosahedron
+const geometry = new THREE.IcosahedronGeometry(3, 64); // ~250,000 Vertices for now
+const material = new THREE.MeshPhongMaterial({ color: 0xf38ba0 });
+const ico = new THREE.Mesh(geometry, material);
+scene.add(ico);
+```
+
+<div className="no-dark-mode">
+  <CanvasProvider
+    script={(canvas) =>
+      main(canvas, {
+        n: 64,
+        noise: false,
+        particles: false,
+        colorful: false,
+      })
+    }
+    style={{
+      width: "100%",
+      backgroundColor: "#3a4042",
+      borderRadius: "5px",
+    }}
+  />
+</div>
+
+Here is an Icosahedron with about 200k vertices. we can convert this mesh into points simply by replacing `THREE.Mesh` with `THREE.Points` and the material with `THREE.PointsMaterial`.
+
+```js
+// Creating the Icosahedron
+const geometry = new THREE.IcosahedronGeometry(3, 64); // ~250,000 Vertices for now
+const material = new THREE.PointsMaterial({ color: 0xf38ba0, size: 0.1 });
+const ico = new THREE.Points(geometry, material);
+scene.add(ico);
+```
+
+<div className="no-dark-mode">
+  <CanvasProvider
+    script={(canvas) =>
+      main(canvas, {
+        n: 64,
+        noise: false,
+        particles: true,
+        colorful: false,
+      })
+    }
+    style={{
+      width: "100%",
+      backgroundColor: "#3a4042",
+      borderRadius: "5px",
+    }}
+  />
+</div>
+
+If you zoom in, you can see the individual points. They appear as 2D squares and always face the camera.
+
+# Moving them around
+
+To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points currospond 1:1 with the vertices of the underlying geometry, we can treat them as such and move them around in the Vertex Shader.
+
+Now we could write the shader from scratch ourselves but I like the conviences of the inbuilt `PointsMaterial` like having size, color or texture support. I'd be perfect if all I had to write was the code to move them around and nothing else.
+
+> I am going to patch `PointsMaterial` with my own little bit of shader code.
+
+Of course doing this is simple using the `onBeforeCompile` hook, but even simpler is using a library I wrote myself.
+
+<div align="center">
+  <RepoCard
+    owner="farazzshaikh" //
+    repo="THREE-CustomShaderMaterial"
+    type="pin"
+  />
+</div>
+
+Using CustomShaderMaterial (CSM) is simple!
+
+```js
+// Creating the Icosahedron
+const geometry = new THREE.IcosahedronGeometry(3, 64); // ~250,000 Vertices for now
+const material = new CustomShaderMaterial({
+  baseMaterial: TYPES.POINTS, // Our base material
+  // Our Custom vertex shader
+  vShader: {
+    defines: await (await fetch("defines.glsl")).text(),,
+    header: await (await fetch("header.glsl")).text(),
+    main: await (await fetch("main.glsl")).text(),
+  },
+  // Some uniforms
+  uniforms: {
+    uTime: {
+      value: 0,
+    },
+  },
+  // Options for the base material
+  passthrough: {
+    size: 0.1,
+    color: 0xf38ba0,
+  },
+});
+const ico = new THREE.Points(geometry, material);
+scene.add(ico);
+```
+
+The `defines` part is should include all our `#defines` which we have none of. The `header` section is injected outside the `main()` of the underlying shader, thus, this is where our attributes, uniforms and varying definitions go. The `main` section is injected into the underlying shaders `main()`.
+
+Lets write our shaders!
+
+## The shaders
+
+We have no `#defines` thus, `defines.glsl` will be empty.
+
+```glsl:title=defines.glsl
+
+```
+
+First, lets recieve the unifrom we passed in - `uTime`
+
+```glsl:title=header.glsl
+uniform float uTime;
+```
+
+Perfect, now we can write our main shader body
+
+```glsl:title=main.glsl
+vec3 newPos = position;
+vec3 newNormal = normal;
+```
+
+<div className="no-dark-mode">
+  <CanvasProvider
+    script={(canvas) =>
+      main(canvas, {
+        n: 64,
+        noise: false,
+        particles: true,
+        colorful: false,
+      })
+    }
+    style={{
+      width: "100%",
+      backgroundColor: "#3a4042",
+      borderRadius: "5px",
+    }}
+  />
+</div>
+
+And we see...no change? Well, all we have done is set `newPositon` to the orignal position. We must modify it.
+
+To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen. To load this in I will use yet another library written by yours truly.
+
+<div align="center">
+  <RepoCard
+    owner="farazzshaikh" //
+    repo="glNoise"
+    type="pin"
+  />
+</div>
+
+This library provides many popular noise function definitions and loaders to automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
+
+```js
+import { loadShadersCSM, Simplex, Curl } from "gl-noise/build/glNoise.m.js";
+
+// ...
+
+// Load shaders with the function definitions we want
+const chunks = [Simplex, Curl]; // Curl noise requires Simplex noise.
+const paths = {
+  defines: "./shaders/defines.glsl",
+  header: "./shaders/header.glsl",
+  main: "./shaders/main.glsl",
+};
+const vertexShader = await loadShadersCSM(paths, chunks);
+
+const material = new CustomShaderMaterial({
+  baseMaterial: TYPES.POINTS,
+  vShader: vertexShader // We can directly use the vertex shader returned
+  uniforms: {
+    uTime: {
+      value: 0,
+    },
+  },
+  passthrough: {
+    size: 0.1,
+    color: 0xf38ba0,
+  },
+});
+```
+
+## Using Noise
+
+Now, in `main.glsl` we can use the shaders we loaded using the loader.
+
+```glsl:title=main.glsl
+float time =  uTime * 0.00005;
+vec3 value = gln_curl((position * 0.2) + time);
+
+vec3 newPos = position + (value * normal);
+vec3 newNormal = normal;
+```
+
+Of course, don't forget to update the time unifrom in your render loop!
+
+```js
+function render() {
+  controls.update(time);
+
+  // Material.uniforms is set asynchronous-ly
+  // so we need to make sure it exists
+  if (material && material.uniforms) {
+    material.uniforms.uTime.value = time;
+  }
+
+  renderer.render(scene, camera);
+}
+```
+
+<div className="no-dark-mode">
+  <CanvasProvider
+    script={(canvas) =>
+      main(canvas, {
+        n: 64,
+        noise: true,
+        particles: true,
+        colorful: false,
+      })
+    }
+    style={{
+      width: "100%",
+      backgroundColor: "#3a4042",
+      borderRadius: "5px",
+    }}
+  />
+</div>

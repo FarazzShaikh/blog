@@ -327,13 +327,16 @@ code.highlighter-rouge {
             background-color: $bg-dark;
         }
 
-        img,
+    img,
 	iframe,
-	body * [style*="background-image"],
-	.no-dark-mode {
+	body * [style*="background-image"] {
 		filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
 		background-color: unset !important;
 	}
+
+    pre, .no-dark-mode {
+        filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+    }
 }
 
 .icon svg {
