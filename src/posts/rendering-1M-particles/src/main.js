@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { CustomShaderMaterial, TYPES } from "three-custom-shader-material";
 import { loadShadersCSM, Simplex, Curl } from "gl-noise/build/glNoise.m";
+import Stats from "stats.js";
 import { initScene } from "./setup.js";
 import lights from "./lights.js";
 
@@ -83,7 +84,15 @@ export function main(canvas, opts) {
     });
   });
 
+  const stats = new Stats();
+  stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+
+  stats.dom.style.position = "absolute";
+  canvas.parentElement.style.position = "relative";
+  canvas.parentElement.appendChild(stats.dom);
+
   function animate(time) {
+    stats.begin();
     controls.update();
 
     if (material && material.uniforms) {
@@ -91,6 +100,7 @@ export function main(canvas, opts) {
     }
 
     renderer.render(scene, camera);
+    stats.end();
   }
 
   return animate.bind(this);

@@ -9,23 +9,42 @@ featuredImage: ../../images/rendering-1M-particles.jpg
 ---
 
 import { CanvasProvider, RepoCard } from "mdx-components";
+import { Image } from "./components/Image.js";
+
 import { main } from "./src/main";
 
-I don't know what it is about Fluid and Flow simulations that fascinate me. My interest peaked after seeing [Misaki Nakano's CodePen](https://codepen.io/mnmxmx/pen/rzqoeW) and [this article by Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/).
+Particles are one of the most mesmarizing systems across computer graphcis. They are simply a group of objects that act together but with some amount of randomness. However, they are only impressive when they number in the thousands or hundreds of thousands.
 
-Daniel's article (which is an excellent read) uses ThreeJS to render ~100K particles. He uses [Instancing](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/#Reducing-draw-calls-by-Instancing-Geometries) to render an obscene amount spheres into his scene **at the cost of only 1 draw call.** He also uses Shaders to move the particles around on the GPU which results in blazing-fast results. He was able to render ~100K spheres this way, in real-time.
+> In this article, we will learn how to render over a million particles in ThreeJS.
 
-> While this is impressive, In this article, we will take this 10 steps further - **1 Million particles!**
+In his excelent article about the topic, [Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/) uses Instancing and Shaders to render about a 100K particles in real time. Simply put, here is how he does it - He uses Instancing to render a sphere 100K times, then moves the vertices around within the Vertex Shader of the sphere's material.
 
-Daniel's article also uses an older version of ThreeJS that is not compatible with the latest versions, thus this article will be an up-to-date guide.
+<figure>
+  <img src="../../images/rendering-1M-particles/Daniel.webp" alt="100k particles by Daniel Velasquez" />
+  <figcaption>
+    <a
+      href="https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/" //
+    >
+      100k particles by Daniel Velasquez
+    </a>
+  </figcaption>
+</figure>
 
-# Spawning Particles
+This is a great way of doing it, espicially if you have some custom geometry that you'd like to use, infact this very website uses this technique to render its particles but we can do better.
 
-This technique involves using ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us spawn 2D representations of points on each vertex of its associated geometry. Thus, if we can make a geometry with 1 million vertices, we can get 1 million particles.
+> ## The secret? **Points**
 
-Of course, we can generate our own `BufferGeometry` or use an imported model but we can also do this trivially using inbuilt Geometries. I will use the `IcosahedronGeometry` as it has a more uniform distribution of vertices
+This technique involves using ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us spawn 2D representations of points on each vertex of its associated geometry. Thus, if make a geometry with 1 million vertices, we get 1 million particles.
 
-> The `SphereGeometry` pinches its vertices at its poles.
+This method does not create 1 million spheres, just 1 million vertices. Also, since we do not calculate lighting or shadows on these points, we save a lot of cycles.
+
+This article assumes you've got the basics of ThreeJS down and will move a little quick.
+
+# Creating the points
+
+As mentioned, we need some vertices to generate the points from. Of course, we can generate our own `BufferGeometry` or use an imported model but we can also do this trivially using inbuilt Geometries. I will use the `IcosahedronGeometry` as it has a more uniform distribution of vertices
+
+> The `SphereGeometry` pinches vertices at its poles.
 
 ```js
 // Creating the Icosahedron
@@ -81,17 +100,17 @@ scene.add(ico);
   />
 </div>
 
-If you zoom in, you can see the individual points. They appear as 2D squares and always face the camera.
+If you zoom in, you can see the individual points. They appear as 2D squares and always face the camera but this is no fun. Let's move them around!
 
 # Moving them around
 
-To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points currospond 1:1 with the vertices of the underlying geometry, we can treat them as such and move them around in the Vertex Shader.
+To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points correspond 1:1 with the vertices of the underlying geometry, we can treat them as such and move them around in the Vertex Shader.
 
-Now we could write the shader from scratch ourselves but I like the conviences of the inbuilt `PointsMaterial` like having size, color or texture support. I'd be perfect if all I had to write was the code to move them around and nothing else.
+We could write the shader from scratch ourselves but I like the conveniences of the inbuilt `PointsMaterial` like having easy control over size and color, or texture support. I'd be perfect if all I had to write was the code to move them around and nothing else.
 
 > I am going to patch `PointsMaterial` with my own little bit of shader code.
 
-Of course doing this is simple using the `onBeforeCompile` hook, but even simpler is using a library I wrote myself.
+Of course, doing this is simple using the `onBeforeCompile` hook, but even simpler is using a library I wrote myself.
 
 <div align="center">
   <RepoCard
@@ -101,9 +120,11 @@ Of course doing this is simple using the `onBeforeCompile` hook, but even simple
   />
 </div>
 
-Using CustomShaderMaterial (CSM) is simple!
-
 ```js
+import { CustomShaderMaterial, TYPES } from "three-custom-shader-material"
+
+//...
+
 // Creating the Icosahedron
 const geometry = new THREE.IcosahedronGeometry(3, 64); // ~250,000 Vertices for now
 const material = new CustomShaderMaterial({
@@ -130,9 +151,9 @@ const ico = new THREE.Points(geometry, material);
 scene.add(ico);
 ```
 
-The `defines` part is should include all our `#defines` which we have none of. The `header` section is injected outside the `main()` of the underlying shader, thus, this is where our attributes, uniforms and varying definitions go. The `main` section is injected into the underlying shaders `main()`.
+The `defines` part is should include all our `#defines` which we have none of. The `header` section is injected outside the `main()` of the underlying shader, thus, this is where our attributes, uniforms, and varying definitions go. The `main` section is injected into the underlying shaders `main()`.
 
-Lets write our shaders!
+Let's write our shaders!
 
 ## The shaders
 
@@ -142,7 +163,7 @@ We have no `#defines` thus, `defines.glsl` will be empty.
 
 ```
 
-First, lets recieve the unifrom we passed in - `uTime`
+First, let's recieve the uniform we passed in - `uTime`
 
 ```glsl:title=header.glsl
 uniform float uTime;
@@ -173,7 +194,7 @@ vec3 newNormal = normal;
   />
 </div>
 
-And we see...no change? Well, all we have done is set `newPositon` to the orignal position. We must modify it.
+And we see...no change? Well, all we have done is set `newPositon` to the original position. We must modify it to see change.
 
 To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen. To load this in I will use yet another library written by yours truly.
 
@@ -261,3 +282,63 @@ function render() {
     }}
   />
 </div>
+
+And here we have it! Beautiful particles, all 200K of them, running in parrellel on the GPU in real time. We can still take this a step furthur and color the particles based on their position.
+
+I will use `THREE-CustomShaderMaterial`'s `fShader` option to inject this little bit of shader code into the materials fragment shader.
+
+```js
+const material = new CustomShaderMaterial({
+  //...
+  fShader: {
+    defines: " ",
+    header: `
+      varying vec3 vPosition;
+      `,
+    main: `
+      vec4 newColor = vec4(vPosition, 1.0);
+      `,
+  },
+  //...
+});
+```
+
+Of course, we also must set `vPosition` in the vertex shader.
+
+```glsl:title=header.glsl
+uniform float uTime;
+varying vec3 vPosition; // 👈 New
+```
+
+```glsl:title=main.glsl
+float time =  uTime * 0.00005;
+vec3 value = gln_curl((position * 0.2) + time);
+
+vec3 newPos = position + (value * normal);
+vPosition = newPos; // 👈 New
+vec3 newNormal = normal;
+```
+
+<div className="no-dark-mode">
+  <CanvasProvider
+    script={(canvas) =>
+      main(canvas, {
+        n: 64,
+        noise: true,
+        particles: true,
+        colorful: true,
+      })
+    }
+    style={{
+      width: "100%",
+      backgroundColor: "#3a4042",
+      borderRadius: "5px",
+    }}
+  />
+</div>
+
+Honestly, we can go at this forver, tweeking little things and improving it. You can also use any kind of shader, even fancy multi-pass ones to drive these particles.
+
+You can set the resolution of the `IcosahedronGeometry` to `138` to get ~1M vertices and as promised, [here is a demo](https://farazzshaikh.github.io/experiments/index.html?src=/Particles/1M%20Particles/index.html) to a simulation with 1 million particles.
+
+> # Thank You!

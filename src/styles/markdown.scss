@@ -13,26 +13,57 @@ $font-stack:
     'Segoe UI Symbol';
 
 
-.content blockquote {
-    border-left: none;
-    background-color: transparent;
-    text-align: center;
-    font-family: 
-        'Cinzel',
-        $font-stack;
-    color: #111;
-    font-size: 18px;
-    font-style: italic;
+.content {
+
+
+    h1, h2, h3, h4 {
+        margin-top: 1em !important;
+        margin-bottom: 0.25em !important;
+    }
+
+    h1, h3 {
+        color: black;
+    }
+
+    h2, h4 {
+        color: #4a4a4a !important;
+    }
+
+    blockquote {
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 
+            'Roboto',
+            $font-stack;
+        }
+
+        border-left: none;
+        background-color: transparent;
+        text-align: center;
+        font-family: 
+            'Cinzel',
+            $font-stack;
+        color: #111;
+        font-size: 18px;
+        font-style: italic;
+        font-weight: lighter;
+    }
+
+    .footnote-ref {
+        margin-left: -10px;
+    }
+
+    code:not(pre code) {
+        background-color: #93a0b549;
+        font-family: 'Fira Code', monospace, $font-stack !important;
+        letter-spacing: 0.025em;
+        border-radius: 5px;
+        padding: 0.2em 0.5em;        
+    }
 }
 
-code {
-    font-family: 'Fira Code', monospace, $font-stack !important;
-    background-color: #93a0b5;
-    color: black;
-    letter-spacing: 0.025em;
-    border-radius: 5px;
-    padding: 0.2em 0.5em;
-}
+
+
 
 .gatsby-code-title {
     margin-bottom: -0.6rem;

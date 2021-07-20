@@ -50,6 +50,7 @@
     "react-dom": "^17.0.1",
     "react-helmet": "^6.1.0",
     "sass": "^1.35.1",
+    "stats.js": "^0.17.0",
     "three": "^0.130.1",
     "three-custom-shader-material": "^2.3.1"
   },
