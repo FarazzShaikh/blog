@@ -34,7 +34,7 @@ This is a great way of doing it, especially if you have some custom geometry tha
 
 > ## The secret? **Points**
 
-In the time since I wrote that article, **I found out about ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object** and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us render 2D representations of each vertex of its associated geometry.
+In the time since I read that article, **I found out about ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object** and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us render 2D representations of each vertex of its associated geometry.
 
 I thought to myself...
 
@@ -220,7 +220,7 @@ To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://
 </div>
 <br />
 
-This library **provides many popular noise function definitions and loaders** to automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
+This library **provides many popular noise function definitions.** It also provides loaders which automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
 
 ```js
 import { loadShadersCSM, Simplex, Curl } from "gl-noise/build/glNoise.m.js";
