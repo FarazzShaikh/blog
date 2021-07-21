@@ -11,7 +11,7 @@ export default function Template(props) {
   const { mdx } = props.data;
   const { frontmatter, body, fields } = mdx;
 
-  const image = frontmatter.image ? frontmatter.image.childImageSharp.resize : null;
+  const image = frontmatter.featuredImage ? frontmatter.featuredImage.childImageSharp.gatsbyImageData : null;
 
   return (
     <Default is404={false} title={frontmatter.title} description={frontmatter.summary} image={image} pathname={props.location.pathname} keywords={frontmatter.tags}>
