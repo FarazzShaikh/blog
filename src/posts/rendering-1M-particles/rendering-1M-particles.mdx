@@ -112,6 +112,7 @@ We could write the shader from scratch ourselves but I like the conveniences of 
 
 Of course, doing this is simple using the `onBeforeCompile` hook, but even simpler is using a library I wrote myself.
 
+<br />
 <div align="center">
   <RepoCard
     owner="farazzshaikh" //
@@ -119,6 +120,7 @@ Of course, doing this is simple using the `onBeforeCompile` hook, but even simpl
     type="pin"
   />
 </div>
+<br />
 
 ```js
 import { CustomShaderMaterial, TYPES } from "three-custom-shader-material"
@@ -198,6 +200,7 @@ And we see...no change? Well, all we have done is set `newPositon` to the origin
 
 To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen. To load this in I will use yet another library written by yours truly.
 
+<br />
 <div align="center">
   <RepoCard
     owner="farazzshaikh" //
@@ -205,6 +208,7 @@ To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://
     type="pin"
   />
 </div>
+<br />
 
 This library provides many popular noise function definitions and loaders to automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
 
@@ -339,6 +343,16 @@ vec3 newNormal = normal;
 
 Honestly, we can go at this forver, tweeking little things and improving it. You can also use any kind of shader, even fancy multi-pass ones to drive these particles.
 
-You can set the resolution of the `IcosahedronGeometry` to `138` to get ~1M vertices and as promised, [here is a demo](https://farazzshaikh.github.io/experiments/index.html?src=/Particles/1M%20Particles/index.html) to a simulation with 1 million particles.
+You can set the resolution of the `IcosahedronGeometry` to `138` to get ~1M vertices and as promised, [here is a demo](https://farazzshaikh.github.io/experiments/?src=/Particles/1M%20Particles/index.html) to a simulation with 1 million particles...
+
+<br />
+<div align="center">
+  <a href="https://github.com/FarazzShaikh/experiments/tree/master/Particles/1M%20Particles" target="_blank">
+    <img src={`https://github-readme-stats.vercel.app/api/pin/?username=farazzshaikh&repo=experiments&show_owner=true&theme=$buefy`} />
+  </a>
+</div>
+<br />
+
+...And here is the code!
 
 > # Thank You!

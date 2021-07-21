@@ -60,6 +60,20 @@ $font-stack:
         border-radius: 5px;
         padding: 0.2em 0.5em;        
     }
+
+    .line-numbers-rows {
+        padding-top: 1.25rem;
+        padding-left: 1rem;
+        border: none;
+
+        span {
+            font-family: 'Fira Code', monospace, $font-stack !important;
+        }
+    }
+
+    .line-numbers-rows > span:before {
+        color: #ffffff42 !important;
+    }
 }
 
 
