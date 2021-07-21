@@ -54,22 +54,18 @@ export function main(canvas, is404) {
   let ID,
     T = 0;
   const callback = (_, _ID) => {
-    if (_4) {
-      _4(T, scrollY);
-    }
+    if (_4) _4(T);
 
-    if (_42) _42(T, scrollY);
+    if (_42) _42(T);
 
-    if (_0) {
-      _0(T, scrollY);
-    }
+    if (_0) _0(T);
 
-    if (brackets) brackets(T, scrollY);
+    if (brackets) brackets(T);
     // bracket2(time);
 
-    if (semicolon) semicolon(T, scrollY);
+    if (semicolon) semicolon(T);
 
-    if (equals) equals(T, scrollY);
+    if (equals) equals(T);
 
     ID = _ID;
     T++;
@@ -83,15 +79,17 @@ export function main(canvas, is404) {
 
     let y = scroll.y / (window.innerHeight * 0.3);
 
-    if (y <= 0) y = 0.2;
+    if (y <= 0) y = 0;
     if (y > 1) y = 1;
 
     y = 1 - y;
-    scrollY = y;
 
     if (y <= 0) {
       if (!cancled) {
-        cancelAnimationFrame(ID);
+        setTimeout(() => {
+          cancelAnimationFrame(ID);
+        }, 2000);
+
         cancled = true;
       }
     } else {

@@ -82,12 +82,15 @@ export function particle(scene, color, model) {
     );
   });
 
-  function animate(time, scrollY) {
+  function animate(time) {
     if (material && material.uniforms) {
       material.uniforms.uTime.value = time * 0.05;
-      material.opacity = scrollY;
 
-      if (scrollY <= 0) points.visible = false;
+      const scroll = document.getScroll();
+      let y = 1 - scroll.y / (window.innerHeight * 0.3);
+      material.opacity = y;
+
+      if (y <= 0) points.visible = false;
       else points.visible = true;
     }
   }

@@ -15,6 +15,12 @@ $font-stack:
 
 .content {
 
+    text-align: justify;
+
+    h1, h2, h3, h4, h5, h6 {
+        text-align: left;
+        
+    }
 
     h1, h2, h3, h4 {
         margin-top: 1em !important;
@@ -35,6 +41,7 @@ $font-stack:
             font-family: 
             'Roboto',
             $font-stack;
+            text-align: center;
         }
 
         border-left: none;
@@ -54,7 +61,7 @@ $font-stack:
     }
 
     code:not(pre code) {
-        background-color: #93a0b549;
+        background-color: #93a0b521;
         font-family: 'Fira Code', monospace, $font-stack !important;
         letter-spacing: 0.025em;
         border-radius: 5px;
@@ -74,6 +81,8 @@ $font-stack:
     .line-numbers-rows > span:before {
         color: #ffffff42 !important;
     }
+
+    
 }
 
 
