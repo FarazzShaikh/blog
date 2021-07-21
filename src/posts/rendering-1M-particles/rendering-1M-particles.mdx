@@ -13,11 +13,11 @@ import { Image } from "./components/Image.js";
 
 import { main } from "./src/main";
 
-Particles are **one of the most mesmerizing systems across computer graphics.** They are simply a group of objects that act together, following the same set of rules but with some amount of randomness. However, they are only impressive when they number in the thousands or hundreds of thousands.
+Particles are one of the most mesmerizing systems across computer graphics. They are simply a group of objects that act together, following the same set of rules but with some amount of randomness. However, they are only impressive when they number in the thousands or hundreds of thousands.
 
 > In this article, we will learn how to render over a million particles in ThreeJS.
 
-A few months ago I stumbled across this excelent article by [Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/) in which he uses **Instancing and Shaders to render about 100K particles in real-time.** Simply put, here is how he does it - He uses Instancing to render a sphere 100K times, then moves the vertices around within the Vertex Shader of the sphere's material.
+A few months ago I stumbled across this excelent article by [Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/) in which he uses Instancing and Shaders to render about 100K particles in real-time. Simply put, here is how he does it - He uses Instancing to render a sphere 100K times, then moves the vertices around within the Vertex Shader of the sphere's material.
 
 <figure>
   <img src="../../images/rendering-1M-particles/Daniel.webp" alt="100k particles by Daniel Velasquez" />
@@ -30,25 +30,25 @@ A few months ago I stumbled across this excelent article by [Daniel Velasquez](h
   </figcaption>
 </figure>
 
-This is a great way of doing it, especially if you have some custom geometry that you'd like to use. In fact, **this very website uses this technique** to render its particles but we can do better.
+This is a great way of doing it, especially if you have some custom geometry that you'd like to use. In fact, this very website uses this technique to render its particles but we can do better.
 
-> ## The secret? **Points**
+> ## The secret? Points
 
-In the time since I read that article, **I found out about ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object** and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us render 2D representations of each vertex of its associated geometry.
+In the time since I read that article, I found out about ThreeJS's [Points](https://threejs.org/docs/index.html?q=points#api/en/objects/Points) object and [Points Material](https://threejs.org/docs/index.html?q=points#api/en/materials/PointsMaterial). The Points object lets us render 2D representations of each vertex of its associated geometry.
 
 I thought to myself...
 
 > "Hey, why not combine this with some Shader magic to make million of particles?"
 
-...and here we are! **If we make a geometry with 1 million vertices and render it as a `Points` object, we get 1 million particles** ready for us to play with, and since we **do not calculate lighting or shadows on these points**, we save a lot of cycles and the simulation runs in real-time.
+...and here we are! If we make a geometry with 1 million vertices and render it as a `Points` object, we get 1 million particles ready for us to play with, and since we do not calculate lighting or shadows on these points , we save a lot of cycles and the simulation runs in real-time.
 
 > This may be a shortcoming actually. Again if you want lighting and shadows you're going to have to use Daniel's technique.
 
-This article assumes you've got the basics of ThreeJS down and will move quick. **This is not meant to be a "beginners guide".**
+This article assumes you've got the basics of ThreeJS down and will move quick. This is not meant to be a "beginners guide".
 
 # Creating the points
 
-As mentioned, **we need some vertices to generate the points from.** Of course, we can generate our own `BufferGeometry` or use an imported model but we can also do this trivially using **inbuilt Geometries.** I will use the `IcosahedronGeometry` as it has a more uniform distribution of vertices
+As mentioned, we need some vertices to generate the points from. Of course, we can generate our own `BufferGeometry` or use an imported model but we can also do this trivially using inbuilt Geometries. I will use the `IcosahedronGeometry` as it has a more uniform distribution of vertices
 
 > The `SphereGeometry` pinches vertices at its poles.
 
@@ -78,7 +78,7 @@ scene.add(ico);
   />
 </div>
 
-Here is **an Icosahedron with about 200k vertices** (we'll graduate to 1M once we've got things set up). We can convert this mesh into points simply by replacing `THREE.Mesh` with `THREE.Points` and the material with `THREE.PointsMaterial`.
+Here is an Icosahedron with about 200k vertices (we'll graduate to 1M once we've got things set up). We can convert this mesh into points simply by replacing `THREE.Mesh` with `THREE.Points` and the material with `THREE.PointsMaterial`.
 
 ```js
 // Creating the Icosahedron
@@ -106,17 +106,17 @@ scene.add(ico);
   />
 </div>
 
-If you zoom in, **you can see the individual points.** They appear as 2D squares and always face the camera. They also take the position of their underlying vertices but this is no fun. **Let's move them around!**
+If you zoom in, you can see the individual points. They appear as 2D squares and always face the camera. They also take the position of their underlying vertices but this is no fun. Let's move them around!
 
 # Moving them around
 
-To move the particles around we can **take a page out of Daniel's article and use shaders.** Specifically, the Vertex Shader. As these **points correspond 1:1 with the vertices of the underlying geometry**, we can treat them as such and move them around in the Vertex Shader.
+To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points correspond 1:1 with the vertices of the underlying geometry , we can treat them as such and move them around in the Vertex Shader.
 
-We could write the shader from scratch ourselves but **I like the conveniences of the inbuilt `PointsMaterial` like having easy control over size and color, or texture support.** I'd be perfect if all I had to write was the code to move them around and nothing else.
+We could write the shader from scratch ourselves but I like the conveniences of the inbuilt `PointsMaterial`, like having easy control over size and color, or texture support. I'd be perfect if all I had to write was the code to move them around and nothing else.
 
 > I am going to patch `PointsMaterial` with my own little bit of shader code.
 
-Of course, **doing this is simple - use the `onBeforeCompile` hook**, but even simpler is using a library I wrote myself.
+Of course, doing this is simple - use the `onBeforeCompile` hook , but even simpler is using a library I wrote myself.
 
 <br />
 <div align="center">
@@ -159,11 +159,11 @@ const ico = new THREE.Points(geometry, material);
 scene.add(ico);
 ```
 
-We **set the base material to `POINTS`** (this works with all standard material). Notice the `vShader` object, here is what the keys mean:
+We set the base material to `POINTS` (this works with all standard material). Notice the `vShader` object, here is what the keys mean:
 
-- `defines`: This part is should **include all our `#defines`** which we have none of.
-- `header`: This section is injected outside the `main()` of the underlying shader, thus, this is where **our attributes, uniforms, varying and function definitions go.**
-- `main`: Section is injected into the underlying shaders `main()` and **must define a `vec3 newPos` and `vec3 newNormal`.**
+- `defines`: This part is should include all our `#defines` which we have none of.
+- `header`: This section is injected outside the `main()` of the underlying shader, thus, this is where our attributes, uniforms, varying and function definitions go.
+- `main`: Section is injected into the underlying shaders `main()` and must define a `vec3 newPos` and `vec3 newNormal`.
 
 Let's write our shaders!
 
@@ -181,7 +181,7 @@ First, let's recieve the uniform we passed in - `uTime`
 uniform float uTime;
 ```
 
-Perfect, now we can **write our main shader body**
+Perfect, now we can write our main shader body
 
 ```glsl:title=main.glsl
 vec3 newPos = position;
@@ -206,9 +206,9 @@ vec3 newNormal = normal;
   />
 </div>
 
-And we see...no change? Well, all we have done is set `newPos` to the original position. **We must modify it to see change.**
+And we see...no change? Well, all we have done is set `newPos` to the original position. We must modify it to see change.
 
-To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it **by Isaac Cohen**. To load this in I will use yet another library written by yours truly.
+To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen . To load this in I will use yet another library written by yours truly.
 
 <br />
 <div align="center">
@@ -220,7 +220,7 @@ To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://
 </div>
 <br />
 
-This library **provides many popular noise function definitions.** It also provides loaders which automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
+This library provides many popular noise function definitions. It also provides loaders which automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
 
 ```js
 import { loadShadersCSM, Simplex, Curl } from "gl-noise/build/glNoise.m.js";
@@ -263,7 +263,7 @@ vec3 newPos = position + (value * normal);
 vec3 newNormal = normal;
 ```
 
-Of course, **don't forget to update the time unifrom** in your render loop!
+Of course, don't forget to update the time unifrom in your render loop!
 
 ```js
 function render() {
@@ -297,7 +297,7 @@ function render() {
   />
 </div>
 
-And here we have it! **Beautiful particles, all 200K of them, running in parallel on the GPU in real-time.** We can still take this a step furthur and color the particles based on their position.
+And here we have it! Beautiful particles, all 200K of them, running in parallel on the GPU in real-time. We can still take this a step furthur and color the particles based on their position.
 
 I will use `THREE-CustomShaderMaterial`'s `fShader` option to inject this little bit of shader code into the materials fragment shader.
 
@@ -317,7 +317,7 @@ const material = new CustomShaderMaterial({
 });
 ```
 
-Of course, **we also must set `vPosition` in the vertex shader**.
+Of course, we also must set `vPosition` in the vertex shader .
 
 ```glsl:title=header.glsl
 uniform float uTime;
@@ -353,7 +353,7 @@ vec3 newNormal = normal;
 
 Honestly, we can go at this forever, tweaking little things and improving them. You can also use any kind of shader, even fancy multi-pass ones to drive these particles.
 
-You can **set the resolution of the `IcosahedronGeometry` to `138` to get ~1M vertices** and as promised, [here is a demo](https://farazzshaikh.github.io/experiments/?src=/Particles/1M%20Particles/index.html) to a simulation with 1 million particles...
+You can set the resolution of the `IcosahedronGeometry` to `138` to get ~1M vertices and as promised, [here is a demo](https://farazzshaikh.github.io/experiments/?src=/Particles/1M%20Particles/index.html) to a simulation with 1 million particles...
 
 <br />
 <div align="center">
