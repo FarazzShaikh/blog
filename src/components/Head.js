@@ -20,7 +20,7 @@ export const Head = ({ description, lang, meta, image: metaImage, title, pathnam
     `
   );
   const metaDescription = description || site.siteMetadata.description;
-  const image = metaImage && metaImage.images && metaImage.images.fallback && metaImage.images.fallback.src ? `${site.siteMetadata.siteUrl}${metaImage.images.fallback.src}` : null;
+  const image = metaImage && metaImage.images && metaImage.images.fallback && metaImage.images.fallback.src ? `${site.siteMetadata.siteUrl}${metaImage.images.fallback.src}/` : null;
   const canonical = pathname ? `${site.siteMetadata.siteUrl}${pathname}` : null;
 
   const icon = glyph || "📖";
