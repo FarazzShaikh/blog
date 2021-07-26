@@ -1,14 +1,21 @@
 import React, { useRef, useEffect } from "react";
 
-export function CanvasProvider({ script, style, is404 }) {
+export function CanvasProvider({ script, style, is404, setError }) {
   const ref = useRef(null);
 
   useEffect(() => {
     const canvas = ref.current;
-    const dispose = script(canvas, is404);
+
+    let dispose;
+    try {
+      dispose = script(canvas, is404);
+    } catch (error) {
+      console.error(error);
+      setError(error);
+    }
 
     return () => {
-      dispose();
+      if (dispose) dispose();
     };
   }, [ref, is404, script]);
 

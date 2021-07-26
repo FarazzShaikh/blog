@@ -1,13 +1,22 @@
 import React, { useRef, useEffect, useState } from "react";
 
-function Blur({ blured, children }) {
+function webgl_support() {
+  try {
+    var canvas = document.createElement("canvas");
+    return !!window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl"));
+  } catch (e) {
+    return false;
+  }
+}
+
+function Blur({ blured, children, error, gl }) {
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        cursor: "pointer",
+        cursor: gl && !error ? "pointer" : "default",
       }}
     >
       <div
@@ -22,8 +31,27 @@ function Blur({ blured, children }) {
   );
 }
 
-function Text({ blured, children, onClick }) {
+function Text({ blured, children, onClick, gl, error }) {
   const [hover, setHover] = useState(false);
+
+  const text = [
+    "⏻︎", //
+    "Click to play",
+    "(Shift + Click to pause)",
+  ];
+
+  if (!gl) {
+    text[0] = "😞";
+    text[1] = "This live demo uses WebGL";
+    text[2] = "Your browser does not support WebGL.";
+  }
+
+  if (error) {
+    text[0] = "😓";
+    text[1] = "Oops! Something went wrong.";
+    text[2] = "Report this error.";
+  }
+
   return (
     <div
       style={{
@@ -50,13 +78,27 @@ function Text({ blured, children, onClick }) {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          pointerEvents: "none",
-          transform: hover ? "scale(1.3)" : "scale(1.0)",
-          transition: "transform 200ms ease-in-out",
+          pointerEvents: gl && !error ? "none" : "all",
         }}
       >
-        <h2>⏸</h2>
-        <h2>Click to play.</h2>
+        <h2
+          style={{
+            transform: hover && gl && !error ? "scale(1.3)" : "scale(1.0)",
+            transition: "transform 200ms ease-in-out",
+          }}
+        >
+          {text[0]}
+        </h2>
+        <h4>{text[1]}</h4>
+        <p>
+          {error ? (
+            <a style={{ zIndex: 50 }} href="mailto:farazzshaikh@gmail.com">
+              {text[2]}
+            </a>
+          ) : (
+            text[2]
+          )}
+        </p>
       </div>
       {children}
     </div>
@@ -73,34 +115,46 @@ export function CanvasProvider({ script, style }) {
   const firstRender = useRef(true);
   const [blured, setBlured] = useState(true);
   const [callback, setCallback] = useState();
-  const [id, setId] = useState();
+  const [error, setError] = useState(undefined);
+
+  const gl = webgl_support();
 
   useEffect(async () => {
-    if (firstRender.current) {
-      const canvas = ref.current;
-      const _callback = await script(canvas);
-      setCallback(() => _callback);
-      _callback(0);
-
-      firstRender.current = false;
-
-      data.obeserever = new IntersectionObserver(([{ isIntersecting }]) => {
-        if (!isIntersecting) {
-          setBlured(true);
+    if (gl && !error) {
+      if (firstRender.current) {
+        const canvas = ref.current;
+        let _callback;
+        try {
+          _callback = await script(canvas);
+        } catch (error) {
+          console.error(error);
+          setError(error);
+          return;
         }
-      });
-      data.obeserever.observe(canvas);
-    }
 
-    const animate = (time) => {
-      callback(time);
-      data.ID = requestAnimationFrame(animate);
-    };
+        setCallback(() => _callback);
+        _callback(0);
 
-    if (!blured) {
-      data.ID = requestAnimationFrame(animate);
-    } else {
-      cancelAnimationFrame(data.ID);
+        firstRender.current = false;
+
+        data.obeserever = new IntersectionObserver(([{ isIntersecting }]) => {
+          if (!isIntersecting) {
+            setBlured(true);
+          }
+        });
+        data.obeserever.observe(canvas);
+      }
+
+      const animate = (time) => {
+        callback(time);
+        data.ID = requestAnimationFrame(animate);
+      };
+
+      if (!blured) {
+        data.ID = requestAnimationFrame(animate);
+      } else {
+        cancelAnimationFrame(data.ID);
+      }
     }
 
     return () => {
@@ -109,18 +163,18 @@ export function CanvasProvider({ script, style }) {
   }, [blured]);
 
   function onClick(e) {
-    setBlured(e.shiftKey);
+    if (gl && !error) setBlured(e.shiftKey);
   }
 
   return (
-    <Text blured={blured} onClick={onClick}>
-      <Blur blured={blured}>
+    <Text blured={blured} onClick={onClick} gl={gl} error={error}>
+      <Blur blured={blured} gl={gl} error={error}>
         <canvas
           style={{
             zIndex: "10",
             ...style,
           }}
-          ref={ref}
+          ref={gl ? ref : null}
         />
       </Blur>
     </Text>

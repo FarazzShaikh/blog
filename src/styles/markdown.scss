@@ -36,11 +36,22 @@ $font-stack:
     }
 
 
-    .blur-container h2 {
+    .blur-container h2,
+    .blur-container h4 {
         color: white !important;
         margin-top: 0 !important;
-        font-weight: bold;
+        font-weight: bold !important;
     }
+
+    .blur-container h2 {
+        font-style: normal !important;
+    }
+
+    .blur-container p {
+        color: white !important;
+        font-style: italic !important;
+    }
+
 
     blockquote {
 
