@@ -35,6 +35,24 @@ $font-stack:
         color: #4a4a4a !important;
     }
 
+
+    .blur-container h2,
+    .blur-container h4 {
+        color: white !important;
+        margin-top: 0 !important;
+        font-weight: bold !important;
+    }
+
+    .blur-container h2 {
+        font-style: normal !important;
+    }
+
+    .blur-container p {
+        color: white !important;
+        font-style: italic !important;
+    }
+
+
     blockquote {
 
         h1, h2, h3, h4, h5, h6 {
