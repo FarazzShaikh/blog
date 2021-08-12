@@ -149,8 +149,8 @@ main {
     position: -webkit-sticky;
     z-index: 100000;
     top: 0;
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
 }
 
@@ -595,28 +595,3 @@ $brand-colors: (
 	}
 }
 
-
-
-
-a.autolink-header {
-    margin-left: 0.25em;
-    path {
-        fill: #a1a1a1;
-        transition: fill 200ms ease-in-out;
-
-    }
-
-    :hover {
-        path {
-            fill: #003dff;
-
-        }
-    }
-}
-
-h1 {
-    svg {
-        width: 30px;
-        height: 30px;
-    }
-}

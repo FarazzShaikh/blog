@@ -12,9 +12,6 @@ export async function character_creation_in_three_js_main(canvas, opts) {
   camera.position.set(2, 2, 2);
   camera.lookAt(0, 0, 0);
 
-  const grid = new THREE.GridHelper(2, 10);
-  scene.add(grid);
-
   const axis = new THREE.AxesHelper(1.2);
   scene.add(axis);
 

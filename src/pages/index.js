@@ -18,8 +18,8 @@ const Index = ({
   let right;
 
   if (!isMobile) {
-    left = Posts.filter((_, i) => i % 2 === 0);
-    right = Posts.filter((_, i) => i % 2 !== 0);
+    left = Posts.filter((_, i) => i % 2 !== 0);
+    right = Posts.filter((_, i) => i % 2 === 0);
   } else {
     const half = Math.ceil(Posts.length / 2);
     left = Posts.slice(0, half);

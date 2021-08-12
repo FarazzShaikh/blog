@@ -18,7 +18,9 @@ Recently, someone reached out to me wanting some randomized characters for a gam
 
 Here, we will only look at random heads, but these techniques could be applied to other body parts as well.
 
-# Naive me
+> If you want to skip straight to the code, [start here](#The-code)
+
+# Context
 
 The first way I thought of tackling this problem was to have a few variations of a part and switching them around selecting a random one every time.
 
@@ -26,7 +28,7 @@ The first way I thought of tackling this problem was to have a few variations of
 
 I got the artist they had to create a few variations of the head and gave it a shot.
 
-I would export each part with its variations in one file. So the head and it’s variations resided in `head.gltf`. The variations of the head were named with this convention - `head_1`, `head_2`…`head_n`.
+I would export each part with its variations in one file. So the head and its variations resided in `head.gltf`. The variations of the head were named with this convention - `head_1`, `head_2`…`head_n`.
 
 Here is how I would use them:
 
@@ -39,13 +41,13 @@ Here is how I would use them:
 
 Now that’s great, and it worked, but I ran into alignment problems. It was tremendously difficult to line up all the other parts so they looked good. Parts like the Nose, Ears, and Eyes were all misaligned and did not look good at all.
 
-Another issue was to generate another random character on the fly, the file would have to be loaded again or the scene to be saved in memory, then the process repeated.
+Another issue was - To generate another random configuration, the file would have to be loaded again or all models be saved in memmory and selectively rendered.
 
-> That was a pain in the neck.
+> This was...clumsy.
 
 # A better approach
 
-A week went by and the client told me they had bought in another artist. This guy had made the models in a different art style and they sent me a GIF.
+A week went by, and the client told me they had bought in another artist. This guy had made the models in a different art style and they sent me a GIF.
 
 ![the-gif](../../images/character-creation-in-three-js/the-gif.gif)
 
@@ -57,24 +59,30 @@ If we made the variations into Shape Keys, and I could control Shape Keys in Thr
 
 ## Using Morph Targets
 
-To use Morph Targets, first you need to export your model with them in its data. In Blender, this is as simple as creating some ShapeKeys and exporting the model with them enabled.
+To use Morph Targets, first, you need to export your model with them in its data. In Blender, this is as simple as creating some Shape Keys and exporting the model with them enabled.
 
 Next, within ThreeJS, once the model has been imported, the Mesh will contain a couple of properties
 
-- `morphTargetDictionary`: This is a dictionary where the keys are the names of the ShapeKeys and the values are the Indices. Indices into what? Well…
-- `morphTargetInfluences`: Indices into this array. This array holds “factor” values for each ShapeKey, just like the slider in blender.
-
 ![Skinned Mesh properties](../../images/character-creation-in-three-js/mesh.png)
+
+- `morphTargetDictionary`: This is an object where the keys are the names of the Shape Keys and the values are the indices. indices into what? Well…
+- `morphTargetInfluences`: indices into this array. This array holds weights for each Shape Key, just like the "value" slider in Blender.
+
+The mesh transforms smoothly between two shapes (an orignal and a target) with the weight controling the "percentage" of transformation. So a weight of `0` is the orignal mesh and `1` is the target mesh. Anything in between is a combination of the two.
 
 ## Why is this better?
 
 > This is better because of one simple fact. A Morph Target can be controlled by one single number.
 
-This means many things, one of which is that we can connect that value up to a slider. Then have sliders control our variations. This way we can make a rudimentary character creation tool.
+This means many things, one of which is that we can connect that value up to a slider. This way we can make a rudimentary character creation tool.
 
-Also, since each influence can range from 0 to 1, and there are almost an infinite number of values in between, we can get an almost infinite number of combinations!
+![Skinned Mesh properties](../../images/character-creation-in-three-js/morph-targets.gif)
 
-We can also drive multiple Shape Keys at once with one value. I asked the artist to name the keys he wants to be driven together with the same prefix. This way no element is misaligned or clips another as different parts morph.
+> Something like this but with our meshes. [Source](https://threejs.org/examples/webgl_morphtargets.html)
+
+Also, since each weight can range from `0` to `1`, and there is an infinite number of values in between, we can get an infinite number of combinations!
+
+We can also drive multiple Shape Keys at once with one weight. I asked the artist to name the keys he wants to be driven together with the same name. This way no element is misaligned or clips another as different parts morph.
 
 ## Limitations
 
@@ -86,19 +94,19 @@ There are ways around this but they were much too complicated for what I was doi
 
 ## The models
 
-The new models were created by a very talned artist @Mox. He carefully modled eight shapekeys into each mesh. Here is just the head he modled.
+The new models were created by a very talented artist [@mox04#5542](https://m.imgur.com/a/30qrUjS) on discord. He carefully modeled eight shape keys into each mesh. Here is just the head
 
-![Models](../../images/character-creation-in-three-js/models.gif)
+![Head](../../images/character-creation-in-three-js/models.gif)
 
-The models were exported in the GLTF file format using Blender's glTF 2.0 plugin.
+I isolated the head and exported it with the GLTF file format using Blender's glTF 2.0 plugin. We can finally get to coding!
 
 # The code
 
-With all that context our of the way, let's dive into the code. This section will move a bit quickly. This is not meant to be a "beginers guide".
+With all that context out of the way, let's dive into the code. This section will move quickly as this is not meant to be a "beginners guide".
 
 ## Loading Models
 
-The models were loaded in using ThreeJS's [`GLTFLoader`](https://threejs.org/docs/index.html?q=gltf#examples/en/loaders/GLTFLoader) class.
+After setting up some boilerplate code, the model was loaded using ThreeJS's [`GLTFLoader`](https://threejs.org/docs/index.html?q=gltf#examples/en/loaders/GLTFLoader) class.
 
 ```js
 const loader = new GLTFLoader();
@@ -127,6 +135,8 @@ loader.load(`./Assets/head.gltf`, (gltf) => {
     }}
   />
 </div>
+
+<br />
 
 The artist was also kind enough to paint some textures. The texture was loaded from a `.png` image using ThreeJS's `TextureLoader` class.
 
@@ -198,9 +208,11 @@ Doing so, we see...
 
 ![A nice undefined](../../images/character-creation-in-three-js/console.png)
 
-huh...what gives? Did I export the model incorrectly? Nope! the gltf scene object is not our mesh. We need to traverse the scene graph of the gltf file and find our object.
+> Undefined?...what gives? Did I export the model incorrectly?
 
-Of course, we can find our object by name using [`Object3D.getObjectByName`](https://threejs.org/docs/#api/en/core/Object3D.getObjectByName) but I havent named my mesh when I exported it so im going to do it the old fassoned way.
+Nope! the GLTF scene object is not our mesh, it simply containes all our meshes. We need to traverse the scene graph of the GLTF scene and find our object.
+
+Of course, we can find our object by name using [`Object3D.getObjectByName`](https://threejs.org/docs/#api/en/core/Object3D.getObjectByName) but I haven't named my mesh when I exported it so I'm going to do it the old fashioned way.
 
 ```js
 loader.load(`./Assets/head.gltf`, (gltf) => {
@@ -252,28 +264,32 @@ const head = await new Promise((res, rej) => {
 scene.add(head);
 ```
 
-A little ugly, I know, but now we can be sure that `head` will be available after the model loads.
+A little ugly, but I can now be sure that `head` will be available after the model loads. I might make a `three-promises` library soon just cause I don't like looing at callbacks.
 
 ### Storing them
 
-Now that we know where they are, we can simply randomize them right where the `console.log` is. But that would mean that we can only get a new variation when the model is loaded again.
+Now that we know where our morph targets are, we can simply randomize them right where the `console.log` is. But that would mean that we can only get a new variation when the model is loaded again.
 
-> Remember, all of this is within the `onLoad` callback of the `GLTFLoader.load` function.
+> I'd like to generate a new character when a button is hit.
 
-Instead, we can store the targets and use them later. THis was we can also have extra logic to control targets of the same name together. Here is how I will be storing them
+To do so, we can store the targets with some other data and use them later. This way we can also have extra logic to control targets of the same name together. Here is how I will be storing them
 
 ```ts
+// A little TypeScript pseudo-code just for demonstration purposes.
 type morphTarget = {
-  index: child.morphTargetDictionary[morphTargetName];
-  child: child;
+  index: typeof child.morphTargetDictionary[morphTargetName];
+  child: typeof child;
 };
 
 type morphTargetMap = {
   morphTargetName: morphTarget[];
 };
+
+// 👇 I will use this object to store the data I need.
+const morphTargets: morphTargetMap = {};
 ```
 
-This way, all targets of the same name are stored together with a refrence to their currosponding meshes and the index into the meshes `morphTargetInfluences`. Here is what it looks like in code
+This way, all targets of the same name are stored together with a reference to their corresponding meshes and the index into the meshes `morphTargetInfluences`. Here is what it looks like in code
 
 ```js
 const morphTargets = {};
@@ -289,6 +305,7 @@ const head = await new Promise((res, rej) => {
           child.material.vertexColors = false;
           child.material.map = texture;
 
+          // 👋 Here is where I add stuff to the object
           if (child.morphTargetDictionary) {
             for (const key in child.morphTargetDictionary) {
               const index = child.morphTargetDictionary[key];
@@ -316,24 +333,34 @@ console.log(morphTargets);
 
 ![Our morphTargets object](../../images/character-creation-in-three-js/console3.png)
 
-We now have a nice object with all the information we need play with the morph targets at will.
+> Our morphTargets object
+
+We now have a nice object with all the information we need to play with the morph targets at will.
 
 ## GUI
 
-Let's create some sliders that will help us change look of our model. I will use the library [dat.GUI](https://github.com/dataarts/dat.gui) created by the creator of ThreeJS = MrDoob, to be used with ThreeJS.
+Let's create some sliders that will help us change the look of our model. I will use the library [dat.GUI](https://github.com/dataarts/dat.gui) created by the creator of ThreeJS = MrDoob.
 
-I will loop through all our unique morph targets and create a slider for each one. Since the influence value should be between 0 and 1, I will set the `min` and `max` of the slider to those values.
+I will loop through all our unique morph targets and create a slider for each one. Since the weight should be between `0` and `1`, I will set the `min` and `max` of the slider to those values.
 
 ```js
 const gui = new dat.GUI();
 
+// Temporary object holds our influences. It's a
+// weird little quirk of dat.GUI
 const influences = {};
+
+// Loop through all targets
 for (const key in morphTargets) {
+  // 👇 Get the individual targets associated with that key
   const targets = morphTargets[key];
 
+  // Set an initial weight by using the first
+  // target.
   const { child, index } = targets[0];
   influences[key] = child.morphTargetInfluences[index];
 
+  // Add stuff to the GUI
   gui.add(influences, key, 0, 1, 0.01).onChange((v) => {
     targets.forEach(({ child, index }) => {
       child.morphTargetInfluences[index] = v;
@@ -359,33 +386,41 @@ for (const key in morphTargets) {
   />
 </div>
 
+<br />
+
 Perfect! We can now control our morph targets using sliders.
 
 ## Randomization
 
-The final step of the process and what we initially set out to do is to randomize the weights so that a random character is created on every click of a button. To do so, we simply loop over our `morphTargets` object and assign a random weight to each `morphTargetInfluence`.
+The final step of the process and what we initially set out to do is to randomize the weights so that a random character is created with every click of a button.
+
+To do so, we simply loop over our `morphTargets` object and assign a random weight to each `morphTargetInfluence`.
 
 ```js
 const funcs = {
   Randomize: () => {
+    // Loop over all morph targets by name
     for (const key in morphTargets) {
+      // Set each of them individual weights assciated with that name
       influences[key] = Math.random();
       morphTargets[key].forEach(({ child, index }) => {
         child.morphTargetInfluences[index] = influences[key];
       });
     }
 
+    // Update the GUI to use the latest weigths
     gui.updateDisplay();
   },
 };
 ```
 
-I will add this function as a button within the GUI. For this part I will also group the sliders into one folder.
+I will add this function as a button to the GUI. For this part, I will also group the sliders into one folder.
 
 ```js
 const gui = new dat.GUI({ autoPlace: false });
-const folder = gui.addFolder("Sliders");
+const folder = gui.addFolder("Sliders"); // Using a folder
 
+const influences = {};
 for (const key in morphTargets) {
   const targets = morphTargets[key];
 
@@ -399,8 +434,10 @@ for (const key in morphTargets) {
   });
 }
 
+// Closing the folder by default
 folder.close();
 
+// Our randomization function
 const funcs = {
   Randomize: () => {
     for (const key in morphTargets) {
@@ -414,6 +451,7 @@ const funcs = {
   },
 };
 
+// Add that function as a button to the GUI
 gui.add(funcs, "Randomize");
 ```
 
@@ -434,9 +472,11 @@ gui.add(funcs, "Randomize");
   />
 </div>
 
-Perfect! now we can randomize the faces with the click of a button! Neat huh?
+> Perfect! now we can randomize the faces with the click of a button! Neat huh?
 
-You can hook this concept up to a loop and generate an array of random faces like I did for the thumbnail of this article. Infact you can checkout [a the demo here.](https://farazzshaikh.github.io/experiments/?src=/3D/Randomized%20Characters/index.html). You can also find the code for the demo on GitHub here
+You can hook this concept up to a loop and generate an array of random faces like I did for the thumbnail of this article. In fact, you can check out [the demo here](https://farazzshaikh.github.io/experiments/?src=/3D/Randomized%20Characters/index.html).
+
+You can also find the code for the demo on GitHub here
 
 <br />
 <div align="center">

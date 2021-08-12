@@ -1,37 +1,46 @@
 @import "./main";
 
-$font-stack: 
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Helvetica,
-    Arial,
-    sans-serif,
-    'Apple Color Emoji',
-    'Segoe UI Emoji',
-    'Segoe UI Symbol';
+$font-stack: -apple-system,
+BlinkMacSystemFont,
+'Segoe UI',
+Roboto,
+Helvetica,
+Arial,
+sans-serif,
+'Apple Color Emoji',
+'Segoe UI Emoji',
+'Segoe UI Symbol';
 
 
 .content {
 
     text-align: justify;
 
-    h1, h2, h3, h4, h5, h6 {
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
         text-align: left;
-        
+
     }
 
-    h1, h2, h3, h4 {
+    h1,
+    h2,
+    h3,
+    h4 {
         margin-top: 1em !important;
         margin-bottom: 0.25em !important;
     }
 
-    h1, h3 {
+    h1,
+    h3 {
         color: black;
     }
 
-    h2, h4 {
+    h2,
+    h4 {
         color: #4a4a4a !important;
     }
 
@@ -55,19 +64,23 @@ $font-stack:
 
     blockquote {
 
-        h1, h2, h3, h4, h5, h6 {
-            font-family: 
-            'Roboto',
-            $font-stack;
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family:
+                'Roboto',
+                $font-stack;
             text-align: center;
         }
 
         border-left: none;
         background-color: transparent;
         text-align: center;
-        font-family: 
-            'Cinzel',
-            $font-stack;
+        font-family: 'Cinzel',
+        $font-stack;
         color: #111;
         font-size: 18px;
         font-style: italic;
@@ -83,7 +96,7 @@ $font-stack:
         font-family: 'Fira Code', monospace, $font-stack !important;
         letter-spacing: 0.025em;
         border-radius: 5px;
-        padding: 0.2em 0.5em;        
+        padding: 0.2em 0.5em;
     }
 
     .line-numbers-rows {
@@ -96,16 +109,58 @@ $font-stack:
         }
     }
 
-    .line-numbers-rows > span:before {
+    .line-numbers-rows>span:before {
         color: #ffffff42 !important;
     }
 
-    
+
+
+
+    a.autolink-header {
+
+
+        margin-left: 0.25em;
+
+        path {
+            fill: #d4d4d4;
+            transition: fill 200ms ease-in-out;
+
+        }
+
+        :hover {
+            color: #003dff;
+
+            path {
+                fill: #003dff;
+
+            }
+        }
+
+    }
+
+    h1 {
+        svg {
+            width: 30px;
+            height: 30px;
+        }
+    }
+
+
 }
 
 .gatsby-highlight {
     .token.parameter {
+        color: rgb(186, 255, 169);
+    }
+
+    .token.class-name {
         color: rgb(255, 242, 169);
+
+    }
+
+    .token.constant {
+        color: rgb(255, 169, 219);
+
     }
 }
 
@@ -114,11 +169,11 @@ $font-stack:
     margin-bottom: -0.6rem;
     padding: 0.5em 1em;
     font-family: 'Fira Code', monospace, $font-stack !important;
-  
+
     background-color: #93a0b5;
     color: #3f3f3f;
     z-index: 0;
-  
+
     border-top-left-radius: 0.3em;
     border-top-right-radius: 0.3em;
 }
@@ -129,6 +184,7 @@ $row-height: 27px;
 
 .dg.main {
     height: 200px;
+
     @mixin button() {
         margin-left: 5px;
         margin-top: 1px;
@@ -141,7 +197,7 @@ $row-height: 27px;
         text-shadow: 0 1px 0 darken($button-color, 10%);
         box-shadow: 0 -1px 0 darken($button-color, 10%);
         cursor: pointer;
-      }
+    }
 
     .property-name {
         color: white !important;
@@ -151,7 +207,7 @@ $row-height: 27px;
     ul {
         margin: 0px !important;
 
-        list-style: none  !important;
+        list-style: none !important;
         margin: 0 !important;
         padding: 0 !important;
         width: 100% !important;
@@ -177,38 +233,39 @@ $row-height: 27px;
         height: $row-height;
         line-height: $row-height;
         padding: 0 4px 0 5px;
-      }
-    
-      li.folder {
+    }
+
+    li.folder {
         padding: 0;
         border-left: none !important;
-      }
-    
-      /** Folder names */
-      li.title {
+    }
+
+    /** Folder names */
+    li.title {
         cursor: pointer;
         margin-left: -$nest-margin;
         color: white !important;
         font-size: 11px;
         padding-left: 16px !important;
-      }
-    
-      /** Hides closed items */
-      .closed li:not(.title),
-      .closed ul li,
-      .closed ul li > * {
+    }
+
+    /** Hides closed items */
+    .closed li:not(.title),
+    .closed ul li,
+    .closed ul li>* {
         height: 0;
         overflow: hidden;
         border: 0;
-      }
+    }
 
-      .button {
+    .button {
         @include button;
         border: none !important;
         background-color: transparent !important;
+
         &:hover {
             background-color: darken($button-color, 5%);
             box-shadow: 0 -1px 0 darken($button-color, 10%);
-          }
-      }
+        }
+    }
 }
