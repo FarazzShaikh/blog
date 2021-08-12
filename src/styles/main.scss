@@ -340,8 +340,7 @@ code.highlighter-rouge {
     }
 
     img,
-    iframe,
-    body * [style*="background-image"] {
+    iframe {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         background-color: unset !important;
