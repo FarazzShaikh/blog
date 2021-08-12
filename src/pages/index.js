@@ -1,11 +1,11 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/main.scss";
 import { graphql } from "gatsby";
 import { Default } from "../layouts/default";
 import { PostLink } from "../components/Stories/PostLink";
 
 function isMobile() {
-  return window.innerWidth < 1024;
+  return window ? window.innerWidth < 1024 : false;
 }
 
 // markup
