@@ -6,10 +6,17 @@ import { Image } from "../components/Stories/Image";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
 import "../styles/markdown.scss";
+import Share from "../components/Share";
 
 export default function Template(props) {
-  const { mdx } = props.data;
-  const { frontmatter, body, fields } = mdx;
+  const {
+    post,
+    site: {
+      siteMetadata: { siteUrl, twitterHandle },
+    },
+  } = props.data;
+
+  const { frontmatter, body, fields, tags } = post;
 
   const image = frontmatter.featuredImage && frontmatter.featuredImage.childImageSharp && frontmatter.featuredImage.childImageSharp.gatsbyImageData ? frontmatter.featuredImage.childImageSharp.gatsbyImageData : null;
 
@@ -22,13 +29,36 @@ export default function Template(props) {
           </div>
           <h1 className="title is-2">{frontmatter.title}</h1>
           <h2 className="subtitle is-4 is-italic ">{frontmatter.subtitle}</h2>
-
+          <p>Share on:</p>
+          <Share
+            socialConfig={{
+              twitterHandle,
+              config: {
+                url: `${siteUrl}${frontmatter.slug}`,
+                title: frontmatter.title,
+              },
+            }}
+            tags={tags}
+          />
           <br />
-          <Image post={mdx} />
+          <Image post={post} />
           <br />
         </div>
         <div className="content">
           <MDXRenderer>{body}</MDXRenderer>
+        </div>
+        <div className="has-text-centered">
+          <p>Enjoyed the read? Share on:</p>
+          <Share
+            socialConfig={{
+              twitterHandle,
+              config: {
+                url: `${siteUrl}${frontmatter.slug}`,
+                title: frontmatter.title,
+              },
+            }}
+            tags={tags}
+          />
         </div>
       </div>
     </Default>
@@ -36,7 +66,13 @@ export default function Template(props) {
 }
 export const pageQuery = graphql`
   query ($id: String!) {
-    mdx(id: { eq: $id }) {
+    site {
+      siteMetadata {
+        siteUrl
+        twitterHandle
+      }
+    }
+    post: mdx(id: { eq: $id }) {
       body
       frontmatter {
         date(formatString: "MMMM DD, YYYY")

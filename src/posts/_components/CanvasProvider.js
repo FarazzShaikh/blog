@@ -120,6 +120,8 @@ export function CanvasProvider({ script, style }) {
   const gl = webgl_support();
 
   useEffect(async () => {
+    console.log("SC", script);
+
     if (gl && !error) {
       if (firstRender.current) {
         const canvas = ref.current;

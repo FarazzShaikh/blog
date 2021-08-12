@@ -118,3 +118,84 @@ $font-stack:
     border-top-left-radius: 0.3em;
     border-top-right-radius: 0.3em;
 }
+
+
+$nest-margin: 4px;
+$row-height: 27px;
+
+.dg.main {
+    @mixin button() {
+        margin-left: 5px;
+        margin-top: 1px;
+        border-radius: 2px;
+        font-size: 11px;
+        line-height: 7px;
+        padding: 4px 4px 5px 4px;
+        background: $button-color;
+        color: #fff;
+        text-shadow: 0 1px 0 darken($button-color, 10%);
+        box-shadow: 0 -1px 0 darken($button-color, 10%);
+        cursor: pointer;
+      }
+
+    .property-name {
+        color: white !important;
+
+    }
+
+    ul {
+        margin: 0px !important;
+
+        list-style: none  !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        clear: both !important;
+
+        li {
+            margin: 0px !important;
+            font-size: 11px !important;
+
+        }
+    }
+
+    li:not(.folder) {
+        cursor: auto;
+        height: $row-height;
+        line-height: $row-height;
+        padding: 0 4px 0 5px;
+      }
+    
+      li.folder {
+        padding: 0;
+        border-left: none !important;
+      }
+    
+      /** Folder names */
+      li.title {
+        cursor: pointer;
+        margin-left: -$nest-margin;
+        color: white !important;
+        font-size: 11px;
+        padding-left: 16px !important;
+      }
+    
+      /** Hides closed items */
+      .closed li:not(.title),
+      .closed ul li,
+      .closed ul li > * {
+        height: 0;
+        overflow: hidden;
+        border: 0;
+      }
+
+      .button {
+        @include button;
+        border: none !important;
+        background-color: transparent !important;
+        &:hover {
+            background-color: darken($button-color, 5%);
+            box-shadow: 0 -1px 0 darken($button-color, 10%);
+          }
+      }
+}

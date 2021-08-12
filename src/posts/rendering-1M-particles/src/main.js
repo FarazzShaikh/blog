@@ -19,7 +19,7 @@ const f = {
 
 const chunks = [Simplex, Curl];
 
-export async function main(canvas, opts) {
+export async function rendering_1M_particles_main(canvas, opts) {
   let material;
 
   const { scene, renderer, camera, controls } = initScene(canvas);

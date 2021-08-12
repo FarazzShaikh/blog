@@ -82,7 +82,7 @@ html {
     font-size: 16px;
 
     nav {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     @include tablet {
@@ -356,6 +356,7 @@ code.highlighter-rouge {
     pre,
     .no-dark-mode {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+
     }
 }
 
@@ -548,4 +549,35 @@ footer {
     font-weight: bold;
     display: none;
     z-index: 1 !important;
+}
+
+
+$brand-colors: (
+	facebook: #3b5998,
+	twitter: #1da1f2,
+	googleplus: #dd4b39,
+	linkedin: #0077b5,
+	reddit: #ff4500,
+	whatsapp: #128c7e,
+);
+
+.post-social {
+	.button {
+		margin: 0.5rem 0.25rem !important; 
+        padding-left: calc(2em + 0.25em) !important;
+        padding-right: calc(2em + 0.25em) !important;
+		transition: all 300ms ease-out !important;
+        border: 1px solid transparent !important;
+		@each $class, $color in $brand-colors {
+			&.#{$class} {
+				color: $color !important;
+				border-color: $color !important ;
+				&:hover {
+					background-color: $color !important;
+					border-color: $color !important ;
+					color: #fff !important;
+				}
+			}
+		}
+	}
 }

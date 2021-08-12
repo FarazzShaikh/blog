@@ -5,6 +5,7 @@ module.exports = {
     discription: "Personal Blog Site of Faraz Shaikh",
     author: "Faraz Shaikh",
     keywords: ["blog", "faraz", "shaikh", "writing", "tech", "programming", "computers", "graphics", "react", "gatsby"],
+    twitterHandle: "@CantBeFaraz",
   },
   flags: {
     DEV_SSR: false,
@@ -24,6 +25,56 @@ module.exports = {
       options: {
         code: "blog-farazshaikh",
         head: true,
+      },
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: {
+        plugins: [`gatsby-remark-reading-time`],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-mdx`,
+      options: {
+        extensions: [`.mdx`, `.md`],
+        plugins: [
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1200,
+              backgroundColor: `transparent`,
+            },
+          },
+        ],
+        gatsbyRemarkPlugins: [
+          "gatsby-remark-code-titles",
+          {
+            resolve: `gatsby-remark-prismjs`,
+            options: {
+              classPrefix: "language-",
+              inlineCodeMarker: null,
+              aliases: {
+                sh: "bash",
+                js: "javascript",
+              },
+              showLineNumbers: false,
+              noInlineHighlight: true,
+            },
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`,
+            options: {
+              ignoreFileExtensions: [`png`, `jpg`, `jpeg`, `bmp`, `tiff`],
+            },
+          },
+          {
+            resolve: `gatsby-remark-images`,
+            options: {
+              maxWidth: 1200,
+              backgroundColor: `transparent`,
+            },
+          },
+        ],
       },
     },
 
@@ -50,46 +101,6 @@ module.exports = {
         path: `./src/images/`,
       },
       __key: "images",
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: {
-        plugins: [`gatsby-remark-reading-time`],
-      },
-    },
-    {
-      resolve: `gatsby-plugin-mdx`,
-      options: {
-        extensions: [`.mdx`, `.md`],
-        gatsbyRemarkPlugins: [
-          "gatsby-remark-code-titles",
-          {
-            resolve: `gatsby-remark-prismjs`,
-            options: {
-              classPrefix: "language-",
-              inlineCodeMarker: null,
-              aliases: {
-                sh: "bash",
-                js: "javascript",
-              },
-              showLineNumbers: false,
-              noInlineHighlight: true,
-            },
-          },
-          {
-            resolve: `gatsby-remark-copy-linked-files`,
-            options: {
-              ignoreFileExtensions: [`png`, `jpg`, `jpeg`, `bmp`, `tiff`],
-            },
-          },
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 1200,
-            },
-          },
-        ],
-      },
     },
   ],
 };

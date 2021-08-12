@@ -9,16 +9,14 @@ featuredImage: ../../images/rendering-1M-particles.jpg
 ---
 
 import { RepoCard } from "mdx-components";
-import { CanvasProvider } from "../_components/CanvasProvider.js";
-import { Image } from "./components/Image.js";
-
-import { main } from "./src/main";
+import { CanvasProvider } from "./CanvasProvider";
+import { rendering_1M_particles_main } from "./src/main";
 
 Particles are one of the most mesmerizing systems across computer graphics. They are simply a group of objects that act together, following the same set of rules but with some amount of randomness. However, they are only impressive when they number in the thousands or hundreds of thousands.
 
 > In this article, we will learn how to render over a million particles in ThreeJS.
 
-A few months ago I stumbled across this excelent article by [Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/) in which he uses Instancing and Shaders to render about 100K particles in real-time. Simply put, here is how he does it - He uses Instancing to render a sphere 100K times, then moves the vertices around within the Vertex Shader of the sphere's material.
+A few months ago I stumbled across this excellent article by [Daniel Velasquez](https://velasquezdaniel.com/blog/rendering-100k-spheres-instantianing-and-draw-calls/) in which he uses Instancing and Shaders to render about 100K particles in real-time. Simply put, here is how he does it - He uses Instancing to render a sphere 100K times, then moves the vertices around within the Vertex Shader of the sphere's material.
 
 <figure>
   <img src="../../images/rendering-1M-particles/Daniel.webp" alt="100k particles by Daniel Velasquez" />
@@ -41,7 +39,7 @@ I thought to myself...
 
 > "Hey, why not combine this with some Shader magic to make million of particles?"
 
-...and here we are! If we make a geometry with 1 million vertices and render it as a `Points` object, we get 1 million particles ready for us to play with, and since we do not calculate lighting or shadows on these points , we save a lot of cycles and the simulation runs in real-time.
+...and here we are! If we make a geometry with 1 million vertices and render it as a `Points` object, we get 1 million particles ready for us to play with, and since we do not calculate lighting or shadows on these points, we save a lot of cycles and the simulation runs in real-time.
 
 > This may be a shortcoming actually. Again if you want lighting and shadows you're going to have to use Daniel's technique.
 
@@ -64,7 +62,7 @@ scene.add(ico);
 <div className="no-dark-mode">
   <CanvasProvider
     script={(canvas) =>
-      main(canvas, {
+      rendering_1M_particles_main(canvas, {
         n: 64,
         noise: false,
         particles: false,
@@ -92,7 +90,7 @@ scene.add(ico);
 <div className="no-dark-mode">
   <CanvasProvider
     script={(canvas) =>
-      main(canvas, {
+      rendering_1M_particles_main(canvas, {
         n: 64,
         noise: false,
         particles: true,
@@ -111,13 +109,13 @@ If you zoom in, you can see the individual points. They appear as 2D squares and
 
 # Moving them around
 
-To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points correspond 1:1 with the vertices of the underlying geometry , we can treat them as such and move them around in the Vertex Shader.
+To move the particles around we can take a page out of Daniel's article and use shaders. Specifically, the Vertex Shader. As these points correspond 1:1 with the vertices of the underlying geometry, we can treat them as such and move them around in the Vertex Shader.
 
 We could write the shader from scratch ourselves but I like the conveniences of the inbuilt `PointsMaterial`, like having easy control over size and color, or texture support. I'd be perfect if all I had to write was the code to move them around and nothing else.
 
 > I am going to patch `PointsMaterial` with my own little bit of shader code.
 
-Of course, doing this is simple - use the `onBeforeCompile` hook , but even simpler is using a library I wrote myself.
+Of course, doing this is simple - use the `onBeforeCompile` hook, but even simpler is using a library I wrote myself.
 
 <br />
 <div align="center">
@@ -176,7 +174,7 @@ We have no `#defines` thus, `defines.glsl` will be empty.
 
 ```
 
-First, let's recieve the uniform we passed in - `uTime`
+First, let's receive the uniform we passed in - `uTime`
 
 ```glsl:title=header.glsl
 uniform float uTime;
@@ -192,7 +190,7 @@ vec3 newNormal = normal;
 <div className="no-dark-mode">
   <CanvasProvider
     script={(canvas) =>
-      main(canvas, {
+      rendering_1M_particles_main(canvas, {
         n: 64,
         noise: false,
         particles: true,
@@ -209,7 +207,7 @@ vec3 newNormal = normal;
 
 And we see...no change? Well, all we have done is set `newPos` to the original position. We must modify it to see change.
 
-To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen . To load this in I will use yet another library written by yours truly.
+To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://github.com/cabbibo/glsl-curl-noise/blob/master/curl.glsl) of it by Isaac Cohen. To load this in I will use yet another library written by yours truly.
 
 <br />
 <div align="center">
@@ -221,7 +219,7 @@ To do so, I will use Curl Noise. [Here is a spactacular implimentation](https://
 </div>
 <br />
 
-This library provides many popular noise function definitions. It also provides loaders which automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
+This library provides many popular noise function definitions. It also provides loaders that automatically append them to the start of our shaders! We will use the `loadShadersCSM` loader from `gl-noise`.
 
 ```js
 import { loadShadersCSM, Simplex, Curl } from "gl-noise/build/glNoise.m.js";
@@ -283,7 +281,7 @@ function render() {
 <div className="no-dark-mode">
   <CanvasProvider
     script={(canvas) =>
-      main(canvas, {
+      rendering_1M_particles_main(canvas, {
         n: 64,
         noise: true,
         particles: true,
@@ -318,7 +316,7 @@ const material = new CustomShaderMaterial({
 });
 ```
 
-Of course, we also must set `vPosition` in the vertex shader .
+Of course, we also must set `vPosition` in the vertex shader.
 
 ```glsl:title=header.glsl
 uniform float uTime;
@@ -337,7 +335,7 @@ vec3 newNormal = normal;
 <div className="no-dark-mode">
   <CanvasProvider
     script={(canvas) =>
-      main(canvas, {
+      rendering_1M_particles_main(canvas, {
         n: 64,
         noise: true,
         particles: true,
