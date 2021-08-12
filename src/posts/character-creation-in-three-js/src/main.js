@@ -62,7 +62,7 @@ export async function character_creation_in_three_js_main(canvas, opts) {
   const influences = {};
   if (opts?.GUI) {
     const dat = await import("dat.gui");
-    const gui = new dat.GUI({ autoPlace: false });
+    const gui = new dat.GUI({ autoPlace: false, width: window.innerWidth * 0.3 });
 
     gui.domElement.style.position = "absolute";
     gui.domElement.style.top = "0";
@@ -87,7 +87,7 @@ export async function character_creation_in_three_js_main(canvas, opts) {
     if (opts?.GUIClosed) gui.close();
   } else if (opts?.folder) {
     const dat = await import("dat.gui");
-    const gui = new dat.GUI({ autoPlace: false });
+    const gui = new dat.GUI({ autoPlace: false, width: window.innerWidth * 0.3 });
     const folder = gui.addFolder("Sliders");
 
     gui.domElement.style.position = "absolute";

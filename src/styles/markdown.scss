@@ -103,7 +103,11 @@ $font-stack:
     
 }
 
-
+.gatsby-highlight {
+    .token.parameter {
+        color: rgb(255, 242, 169);
+    }
+}
 
 
 .gatsby-code-title {
@@ -124,6 +128,7 @@ $nest-margin: 4px;
 $row-height: 27px;
 
 .dg.main {
+    height: 200px;
     @mixin button() {
         margin-left: 5px;
         margin-top: 1px;
@@ -152,11 +157,19 @@ $row-height: 27px;
         width: 100% !important;
         clear: both !important;
 
+        height: auto;
+        max-height: 100%;
+        overflow-y: scroll;
+
         li {
             margin: 0px !important;
             font-size: 11px !important;
 
         }
+    }
+
+    ul.closed {
+        height: 0%;
     }
 
     li:not(.folder) {

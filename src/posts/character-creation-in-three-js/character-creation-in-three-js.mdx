@@ -9,7 +9,7 @@ featuredImage: ../../images/character-creation-in-three-js.jpg
 ---
 
 import { RepoCard } from "mdx-components";
-import { CanvasProvider2 } from "./CanvasProvider.js";
+import { CanvasProvider } from "../_components/CanvasProvider.js";
 import { character_creation_in_three_js_main } from "./src/main.js";
 
 Recently, someone reached out to me wanting some randomized characters for a game they were going to make. I had never looked into Procedural Character generation and information on how to do so is scarce but I decided to accept the challenge and make it work.
@@ -117,7 +117,7 @@ loader.load(`./Assets/head.gltf`, (gltf) => {
 ```
 
 <div className="no-dark-mode">
-  <CanvasProvider2
+  <CanvasProvider
     script={(canvas) => character_creation_in_three_js_main(canvas)}
     style={{
       width: "100%",
@@ -154,7 +154,7 @@ loader.load(`./Assets/head.gltf`, (gltf) => {
 ```
 
 <div className="no-dark-mode">
-  <CanvasProvider2
+  <CanvasProvider
     script={(canvas) =>
       character_creation_in_three_js_main(canvas, {
         texture: true,
@@ -343,7 +343,7 @@ for (const key in morphTargets) {
 ```
 
 <div className="no-dark-mode">
-  <CanvasProvider2
+  <CanvasProvider
     script={(canvas) =>
       character_creation_in_three_js_main(canvas, {
         texture: true,
@@ -418,7 +418,7 @@ gui.add(funcs, "Randomize");
 ```
 
 <div className="no-dark-mode">
-  <CanvasProvider2
+  <CanvasProvider
     script={(canvas) =>
       character_creation_in_three_js_main(canvas, {
         texture: true,
@@ -446,4 +446,4 @@ You can hook this concept up to a loop and generate an array of random faces lik
 </div>
 <br />
 
-> # Thank You!
+<div style={{ fontSize: "2em", textAlign: "center", fontStyle: "italic", color: "black" }}>Thank You!</div>

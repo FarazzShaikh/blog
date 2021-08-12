@@ -44,9 +44,11 @@ h3,
 .title,
 span,
 p,
-li {
+li{
     color: black;
+
 }
+
 
 h4,
 h5,
@@ -580,4 +582,30 @@ $brand-colors: (
 			}
 		}
 	}
+}
+
+
+
+
+a.autolink-header {
+    margin-left: 0.25em;
+    path {
+        fill: #a1a1a1;
+        transition: fill 200ms ease-in-out;
+
+    }
+
+    :hover {
+        path {
+            fill: #003dff;
+
+        }
+    }
+}
+
+h1 {
+    svg {
+        width: 30px;
+        height: 30px;
+    }
 }
