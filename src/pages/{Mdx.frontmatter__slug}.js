@@ -29,7 +29,6 @@ export default function Template(props) {
           </div>
           <h1 className="title is-2">{frontmatter.title}</h1>
           <h2 className="subtitle is-4 is-italic ">{frontmatter.subtitle}</h2>
-          <p>Share on:</p>
           <Share
             socialConfig={{
               twitterHandle,

@@ -325,6 +325,7 @@ code.highlighter-rouge {
         -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
+
     .navbar {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
@@ -339,7 +340,8 @@ code.highlighter-rouge {
         background-color: $bg-dark;
     }
 
-    img,
+
+    img:not(.medium-zoom-image--opened),
     iframe {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
@@ -547,13 +549,22 @@ $brand-colors: (
 	linkedin: #0077b5,
 	reddit: #ff4500,
 	whatsapp: #128c7e,
+	copy-link: #128c7e,
 );
 
 .post-social {
+
 	.button {
 		margin: 0.5rem 0.25rem !important; 
-        padding-left: calc(2em + 0.25em) !important;
-        padding-right: calc(2em + 0.25em) !important;
+        padding: calc(1em + 0.25em) !important;
+        border-radius: 50% !important;
+        background-color: transparent;
+        // padding-right: calc(1em + 0.25em) !important;
+
+        .icon {
+            margin: 0;
+        }
+
 		transition: all 300ms ease-out !important;
         border: 1px solid transparent !important;
 		@each $class, $color in $brand-colors {
@@ -563,6 +574,11 @@ $brand-colors: (
 				&:hover {
 					background-color: $color !important;
 					border-color: $color !important ;
+
+                    path {
+                        fill: white;
+                    }
+
 					color: #fff !important;
 				}
 			}
@@ -570,3 +586,13 @@ $brand-colors: (
 	}
 }
 
+.medium-zoom-overlay {
+    background: #11131a62 !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.medium-zoom-image--opened {
+    padding: 3em;
+
+}

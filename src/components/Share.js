@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { LinkedinShareButton, TwitterShareButton, RedditShareButton } from "react-share";
 import { faLinkedinIn, faRedditAlien, faTwitter } from "@fortawesome/free-brands-svg-icons";
+import { faLink, faShareAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Share = ({ socialConfig, tags }) => (
   <div className="post-social">
@@ -21,6 +22,17 @@ const Share = ({ socialConfig, tags }) => (
         <FontAwesomeIcon icon={faRedditAlien} />
       </span>
     </RedditShareButton>
+    <div
+      className="button is-outlined is-rounded copy-link"
+      title="Copy Link"
+      onClick={(event) => {
+        navigator.clipboard.writeText(socialConfig.config.url);
+      }}
+    >
+      <span className="icon">
+        <FontAwesomeIcon icon={faLink} />
+      </span>
+    </div>
   </div>
 );
 

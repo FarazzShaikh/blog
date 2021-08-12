@@ -18,7 +18,6 @@ module.exports = {
     "gatsby-transformer-sharp",
     `gatsby-transformer-remark`,
     "gatsby-plugin-sass",
-    `gatsby-remark-images`,
     "gatsby-plugin-sharp",
     {
       resolve: `gatsby-plugin-goatcounter`,
@@ -43,8 +42,10 @@ module.exports = {
             options: {
               maxWidth: 1200,
               backgroundColor: `transparent`,
+              linkImagesToOriginal: false,
             },
           },
+          //   `gatsby-remark-images-medium-zoom`, // Important!
         ],
         gatsbyRemarkPlugins: [
           "gatsby-remark-code-titles",
@@ -72,6 +73,7 @@ module.exports = {
             options: {
               maxWidth: 1200,
               backgroundColor: `transparent`,
+              linkImagesToOriginal: false,
             },
           },
           {
@@ -83,9 +85,16 @@ module.exports = {
               maintainCase: true,
               removeAccents: true,
               isIconAfterHeader: true,
-              elements: [`h1`, `h2`, `h3`, `h4`],
+              elements: [`h1`],
             },
           },
+          //   {
+          //     resolve: `gatsby-remark-images-medium-zoom`, // Important!
+          //     options: {
+          //       includedSelector: "gatsby-resp-image-image",
+          //       margin: 24,
+          //     },
+          //   },
         ],
       },
     },

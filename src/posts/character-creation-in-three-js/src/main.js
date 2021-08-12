@@ -25,8 +25,6 @@ export async function character_creation_in_three_js_main(canvas, opts) {
     loader.load(`/character-creation-in-three-js/head.gltf`, (object) => {
       const group = object.scene;
 
-      console.log("====");
-
       group.traverse((child) => {
         if (child.isMesh) {
           child.material.metalness = 0;
@@ -52,8 +50,6 @@ export async function character_creation_in_three_js_main(canvas, opts) {
     });
   });
 
-  console.log(morphTargets);
-
   scene.add(head.scene);
 
   const influences = {};
@@ -65,7 +61,6 @@ export async function character_creation_in_three_js_main(canvas, opts) {
     gui.domElement.style.top = "0";
     gui.domElement.style.right = "0";
 
-    console.log(gui.domElement);
     canvas.parentElement.appendChild(gui.domElement);
 
     for (const key in morphTargets) {
@@ -91,7 +86,6 @@ export async function character_creation_in_three_js_main(canvas, opts) {
     gui.domElement.style.top = "0";
     gui.domElement.style.right = "0";
 
-    console.log(gui.domElement);
     canvas.parentElement.appendChild(gui.domElement);
 
     for (const key in morphTargets) {
