@@ -11,7 +11,7 @@ $grey-darker: #111;
 
 $bg-dark: #11131a;
 $bg-light: #eff2f9;
-$bg-light-transparent: #eff2f947;
+$bg-light-transparent: #eff2f96b;
 
 
 $font-stack: -apple-system,
@@ -144,9 +144,21 @@ main {
 }
 
 
-.navbar {
-    background-color: $bg-light;
+.hero-head {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 100000;
+    top: 0;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+
 }
+
+.navbar {
+    background-color: $bg-light-transparent !important;
+
+}
+
 
 
 .navbar-item {
@@ -334,14 +346,17 @@ code.highlighter-rouge {
 
     .main-container {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
-    .hero-head {
+    .navbar {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
     footer {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
     body {
@@ -352,12 +367,14 @@ code.highlighter-rouge {
     iframe,
     body * [style*="background-image"] {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         background-color: unset !important;
     }
 
     pre,
     .no-dark-mode {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
 
     }
 }
@@ -517,12 +534,6 @@ footer {
 
 
 
-.hero-head {
-    position: sticky;
-    position: -webkit-sticky;
-    z-index: 1000;
-    top: 0;
-}
 
 .title._404 {
     font-size: 5em;
