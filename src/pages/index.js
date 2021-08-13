@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/main.scss";
 import { graphql } from "gatsby";
 import { Default } from "../layouts/default";
@@ -11,10 +11,24 @@ const Index = ({
   },
   location,
 }) => {
+  const [isMobile, setIsMobile] = useState(false);
   const Posts = edges.map((edge, i) => <PostLink key={edge.node.id} index={i} post={edge.node} />);
 
-  const left = Posts.filter((_, i) => i % 2 === 0);
-  const right = Posts.filter((_, i) => i % 2 !== 0);
+  let left;
+  let right;
+
+  if (!isMobile) {
+    left = Posts.filter((_, i) => i % 2 !== 0);
+    right = Posts.filter((_, i) => i % 2 === 0);
+  } else {
+    const half = Math.ceil(Posts.length / 2);
+    left = Posts.slice(0, half);
+    right = Posts.slice(-half);
+  }
+
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 1024);
+  }, [isMobile]);
 
   return (
     <Default is404={false} title="" description="A list of all my posts. Stuff I find cool, intresting, or both." pathname={location.pathname}>
@@ -43,7 +57,6 @@ export const pageQuery = graphql`
       edges {
         node {
           id
-          excerpt(pruneLength: 260)
           frontmatter {
             date(formatString: "MMMM DD, YYYY")
             slug

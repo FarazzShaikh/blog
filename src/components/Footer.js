@@ -1,6 +1,6 @@
 import * as React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArtstation, faBitcoin, faEthereum, faGithub, faInstagram, faLinkedin, faMedium, faPaypal, faReddit } from "@fortawesome/free-brands-svg-icons";
+import { faArtstation, faBitcoin, faEthereum, faGithub, faInstagram, faLinkedin, faMedium, faPaypal, faReddit, faTwitter } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelopeOpen, faIdCard } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "gatsby";
 import { Newsletter } from "./Newsletter";
@@ -48,11 +48,11 @@ export const Footer = () => {
             <a className="icons" target="_blank" href="https://www.artstation.com/farazshaikh" rel="noreferrer">
               <FontAwesomeIcon className="icon" icon={faArtstation} />
             </a>
-            <a className="icons" target="_blank" href="https://farazzshaikh.medium.com/" rel="noreferrer">
-              <FontAwesomeIcon className="icon" icon={faMedium} />
-            </a>
             <a className="icons" target="_blank" href="https://www.reddit.com/user/ppictures" rel="noreferrer">
               <FontAwesomeIcon className="icon" icon={faReddit} />
+            </a>
+            <a className="icons" target="_blank" href="https://twitter.com/CantBeFaraz" rel="noreferrer">
+              <FontAwesomeIcon className="icon" icon={faTwitter} />
             </a>
           </div>
         </div>

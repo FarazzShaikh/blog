@@ -11,7 +11,7 @@ $grey-darker: #111;
 
 $bg-dark: #11131a;
 $bg-light: #eff2f9;
-$bg-light-transparent: #eff2f947;
+$bg-light-transparent: #eff2f96b;
 
 
 $font-stack: -apple-system,
@@ -44,9 +44,11 @@ h3,
 .title,
 span,
 p,
-li {
+li{
     color: black;
+
 }
+
 
 h4,
 h5,
@@ -82,7 +84,7 @@ html {
     font-size: 16px;
 
     nav {
-        font-size: 12px;
+        font-size: 16px;
     }
 
     @include tablet {
@@ -142,9 +144,21 @@ main {
 }
 
 
-.navbar {
-    background-color: $bg-light;
+.hero-head {
+    position: sticky;
+    position: -webkit-sticky;
+    z-index: 100000;
+    top: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
 }
+
+.navbar {
+    background-color: $bg-light-transparent !important;
+
+}
+
 
 
 .navbar-item {
@@ -306,56 +320,39 @@ code.highlighter-rouge {
 
 
 @media (prefers-color-scheme: dark) {
-    // :root {
-    // 	background-color: #11131a !important;
-    // }
-
-    // // We only do it on body as `filter` doesn't apply to the overscroll.
-    // body {
-    // 	background-color: $bg-light;
-    //     filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%);
-    // }
-
-    // canvas {
-    // 	filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
-    // }
-
-    // * {
-    // 	background-color: inherit;
-    // }
-
-
-
-    // pre {
-    // 	filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
-    // }
-
     .main-container {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
-    .hero-head {
+
+    .navbar {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
     footer {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
     }
 
     body {
         background-color: $bg-dark;
     }
 
-    img,
-    iframe,
-    body * [style*="background-image"] {
+
+    img:not(.medium-zoom-image--opened),
+    iframe {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
         background-color: unset !important;
     }
 
     pre,
     .no-dark-mode {
         filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+        -webkit-filter: invert(100%) hue-rotate(-180deg) brightness(105%) contrast(95%) !important;
+
     }
 }
 
@@ -514,12 +511,6 @@ footer {
 
 
 
-.hero-head {
-    position: sticky;
-    position: -webkit-sticky;
-    z-index: 1000;
-    top: 0;
-}
 
 .title._404 {
     font-size: 5em;
@@ -548,4 +539,60 @@ footer {
     font-weight: bold;
     display: none;
     z-index: 1 !important;
+}
+
+
+$brand-colors: (
+	facebook: #3b5998,
+	twitter: #1da1f2,
+	googleplus: #dd4b39,
+	linkedin: #0077b5,
+	reddit: #ff4500,
+	whatsapp: #128c7e,
+	copy-link: #128c7e,
+);
+
+.post-social {
+
+	.button {
+		margin: 0.5rem 0.25rem !important; 
+        padding: calc(1em + 0.25em) !important;
+        border-radius: 50% !important;
+        background-color: transparent;
+        // padding-right: calc(1em + 0.25em) !important;
+
+        .icon {
+            margin: 0;
+        }
+
+		transition: all 300ms ease-out !important;
+        border: 1px solid transparent !important;
+		@each $class, $color in $brand-colors {
+			&.#{$class} {
+				color: $color !important;
+				border-color: $color !important ;
+				&:hover {
+					background-color: $color !important;
+					border-color: $color !important ;
+
+                    path {
+                        fill: white;
+                    }
+
+					color: #fff !important;
+				}
+			}
+		}
+	}
+}
+
+.medium-zoom-overlay {
+    background: #11131a62 !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.medium-zoom-image--opened {
+    padding: 3em;
+
 }

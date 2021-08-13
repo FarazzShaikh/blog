@@ -23,6 +23,8 @@ function Blur({ blured, children, error, gl }) {
         style={{
           filter: blured ? "blur(5px) brightness(50%)" : "none",
           transition: "filter 200ms ease-in-out",
+          width: "100%",
+          height: "100%",
         }}
       >
         {children}
@@ -56,6 +58,8 @@ function Text({ blured, children, onClick, gl, error }) {
     <div
       style={{
         position: "relative",
+        width: "100%",
+        height: "300px",
       }}
       className="blur-container"
       onMouseEnter={() => {
@@ -173,6 +177,7 @@ export function CanvasProvider({ script, style }) {
           style={{
             zIndex: "10",
             ...style,
+            height: "100%",
           }}
           ref={gl ? ref : null}
         />
