@@ -16,6 +16,8 @@ export default function Template(props) {
     },
   } = props.data;
 
+  console.log(props);
+
   const { frontmatter, body, fields, tags } = post;
 
   const image = frontmatter.featuredImage && frontmatter.featuredImage.childImageSharp && frontmatter.featuredImage.childImageSharp.gatsbyImageData ? frontmatter.featuredImage.childImageSharp.gatsbyImageData : null;
