@@ -12,7 +12,9 @@ import { RepoCard } from "mdx-components";
 import { CanvasProvider } from "../_components/CanvasProvider.js";
 import { character_creation_in_three_js_main } from "./src/main.js";
 
-Recently, someone reached out to me wanting some randomized characters for a game they were going to make. I had never looked into Procedural Character generation and information on how to do so is scarce but I decided to accept the challenge and make it work.
+Recently, someone reached out to me wanting some randomized characters for a game they were going to make. 
+
+I had never looked into Procedural Character generation and information on how to do so is scarce but I decided to accept the challenge and make it work.
 
 > In this article, I will explore a couple of methods I used to generate random characters
 
@@ -26,7 +28,7 @@ The first way I thought of tackling this problem was to have a few variations of
 
 > This was an easy and logical first step, but oh boy was I wrong.
 
-I got the artist they had to create a few variations of the head and gave it a shot.
+I got the artist they had, to create a few variations of the head and gave it a shot.
 
 I would export each part with its variations in one file. So the head and its variations resided in `head.gltf`. The variations of the head were named with this convention - `head_1`, `head_2`…`head_n`.
 
@@ -41,7 +43,7 @@ Here is how I would use them:
 
 Now that’s great, and it worked, but I ran into alignment problems. It was tremendously difficult to line up all the other parts so they looked good. Parts like the Nose, Ears, and Eyes were all misaligned and did not look good at all.
 
-Another issue was - To generate another random configuration, the file would have to be loaded again or all models be saved in memmory and selectively rendered.
+Another issue was - To generate another random configuration, the file would have to be loaded again or all models be saved in memory and selectively rendered.
 
 > This was...clumsy.
 
