@@ -10,14 +10,20 @@ function webgl_support() {
 }
 
 function Blur({ blured, children, error, gl }) {
+  const [grabbing, setGrabbin] = useState(false);
+
   return (
     <div
       style={{
         width: "100%",
         height: "100%",
         overflow: "hidden",
-        cursor: gl && !error ? "pointer" : "default",
+        cursor: gl && !error ? (blured ? "pointer" : grabbing ? "grabbing" : "grab") : "default",
+        cursor: gl && !error ? (blured ? "pointer" : grabbing ? "-moz-grabbing" : "-moz-grab") : "default",
+        cursor: gl && !error ? (blured ? "pointer" : grabbing ? "-webkit-grabbing" : "-webkit-grab") : "default",
       }}
+      onMouseDown={() => setGrabbin(true)}
+      onMouseUp={() => setGrabbin(false)}
     >
       <div
         style={{

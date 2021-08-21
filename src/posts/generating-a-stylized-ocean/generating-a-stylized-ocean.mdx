@@ -12,7 +12,9 @@ import { Embed, RepoCard } from "mdx-components";
 import { CanvasProvider } from "../_components/CanvasProvider.js";
 import { generating_a_stylized_ocean } from "./src/main.js";
 
-I currently am in the process of rewriting [my website](https://www.farazshaikh.com/) from scratch in React. This gave me an opportunity to really optimize the code for some of the WebGL elements featured on it. Among those components, is the centerpiece of the site. This plane flying above an ocean. Anyone who sees that little demo within my presence, always asks me how it works.
+I currently am in the process of rewriting [my website](https://www.farazshaikh.com/) from scratch in React. This gave me an opportunity to really optimize the code for some of the WebGL elements featured on it.
+
+Among those components, is the centerpiece of the site. This plane flying above an ocean. Anyone who sees that little demo within my presence, always asks me how it works.
 
 ![The demo on my site](../../images/generating-a-stylized-ocean/site-demo.gif)
 
@@ -34,15 +36,17 @@ The most basic form of a wave I can think of is the Sine wave. You've probably s
 
 <Embed url="https://www.desmos.com/calculator/ki7k38722j?embed" />
 
-But this is not how waves look. Here is an image of a wave for reference
+But this is not how real waves look. Here is an image of a wave for reference
 
 ![The demo on my site](../../images/generating-a-stylized-ocean/wave-side.jpeg)
 
-Notice how it is not a smooth sine wave but is rather "pointy" at its peaks but smooth at its curves. This type of wave is called a [Trochoidal Wave or Gerstner Wave](https://en.wikipedia.org/wiki/Trochoidal_wave). I'll spare you the physics but we can generate this type of wave rather easily. Here is a Gerstner wave in all its glory
+Notice how it is not a smooth sine wave but is rather "pointy" at its peaks and smooth at its troughs. This type of wave is called a [Trochoidal Wave or Gerstner Wave](https://en.wikipedia.org/wiki/Trochoidal_wave).
+
+I'll spare you the physics but we can generate this type of wave rather easily. Here is a Gerstner wave in all its glory
 
 <Embed url="https://www.desmos.com/calculator/tbs3vwijfo?embed" />
 
-> If you really want to know how to derive this then take a look at this [amazing article by Jasper Flick](https://catlikecoding.com/unity/tutorials/flow/waves/). In fact, this very article is what sparked the whole idea a few months ago.
+> If you really want to know how to derive this then take a look at this [fantastic article by Jasper Flick](https://catlikecoding.com/unity/tutorials/flow/waves/). In fact, this very article is what sparked the whole idea a few months ago.
 
 ## A wave in code
 
@@ -87,7 +91,7 @@ Notice the `gln_` prefix? Yes, this function is a part of my library `gl-noise`.
 
 ### The plane
 
-I already have set up some boilerplate and lighting. Let's add a plane
+I have already set up some boilerplate and lighting. Let's add a flat plane
 
 ```js
 const material = new THREE.MeshPhongMaterial({
@@ -114,7 +118,7 @@ scene.add(plane);
 </div>
 <br />
 
-Great! now I will apply the Gerstner Wave to the place in its vertex shader
+Great! now I will apply the Gerstner Wave to the plane in its vertex shader
 
 ### The Wave
 
@@ -134,7 +138,7 @@ vec3 displace(vec3 point) {
 csm_Position = displace(position);
 ```
 
-If this way of writing shaders seems unfamiliar, that is because I am using another library of mine, `three-custom-shader-material`, to inject my own vertex shader into ThreeJS's inbuild `MeshPhongMaterial`. Please checkout the READMEs of the libraries I use to see how to use them.
+If this way of writing shaders seems unfamiliar, that's because I am using another library of mine, `three-custom-shader-material`, to inject my own vertex shader into ThreeJS's inbuild `MeshPhongMaterial`. Please checkout the `README.md` of the libraries I use to see how to use them.
 
 <br />
 <div align="center">
@@ -192,7 +196,7 @@ Looking good, it looks like the Gerstner Waves we discussed earlier! Which is...
 
 ### Calm Ocean
 
-It looks like a wave should look, but now what we're going for. We're going for more of an ocean-like wave. Here is an ocean for reference
+It looks like what a wave should look like, but not what we're going for. We're going for more of an ocean-like wave. Here is an ocean for reference
 
 ![Ocean surface](../../images/generating-a-stylized-ocean/ocean-surface.jpg)
 
@@ -202,7 +206,9 @@ We see that an actual ocean has a ton more detail. Let's strip back the turbulen
 
 There we go. Now, we see that an actual ocean has multiple waves constructively and destructively interfering with each other. In other words, it's a bunch of waves all added together on top of each other.
 
-But if we simply add the same wave to itself, it will simply grow larger without giving us any detail. So we will add together 4 waves and use [Fractional Brownian motion](https://en.wikipedia.org/wiki/Fractional_Brownian_motion) to combine these waves and have them look good.
+But if we simply add the same wave to itself, it will only grow larger without giving us any detail. So we will add together 4 waves using [Fractional Brownian motion](https://en.wikipedia.org/wiki/Fractional_Brownian_motion).
+
+This method involves adding multiple layers of noise with **increasing frequency** but **decreasing amplitude**. I will explore Fbm in a later article.
 
 ```glsl:title=vertex/header.glsl
 // We will use 4 waves with...           ...increasing frequency 👇
@@ -245,7 +251,7 @@ vec3 displace(vec3 point) {
 </div>
 <br />
 
-That's better. Of course, the more layers of noise you add the more detail the waves will have at the expense of performance.
+That's better. Of course, the more layers of noise you add the more detail the waves will have, at the expense of performance.
 
 ### Turbulent Ocean
 
@@ -306,7 +312,7 @@ Damn, that looks good! How about we get things moving huh?
 
 ## Let animate
 
-As I mentioned earlier, `gln_GerstnerWave` accepts a `time` argument. This argument basically just offsets the noise in the direction specified in the `opts` argument, making it look like it's moving.
+As I mentioned earlier, `gln_GerstnerWave` accepts a `time` argument. This argument just offsets the noise in the direction specified by the `opts` argument, making it look like it's moving.
 
 > It's all an illusion.
 
@@ -344,14 +350,13 @@ const render = function(time) {
 
     requestanimationframe(render)
 }
-
 ```
 
 Then we can use this uniform in the vertex shader
 
 ```glsl:title=vertex/header.glsl
 
-uniform float uTime;
+uniform float uTime; // 👈 Recieve the time uniform
 
 gln_tGerstnerWaveOpts A = gln_tGerstnerWaveOpts(vec2(0.0, -1.0), 0.5, 2.0);
 gln_tGerstnerWaveOpts B = gln_tGerstnerWaveOpts(vec2(0.0, 1.0), 0.25, 4.0);
@@ -368,11 +373,11 @@ vec3 displace(vec3 point) {
     // We will also offset the Perlin-based FBm 👇
     n.z += gln_normalize(gln_pfbm(p.xy + (uTime * 0.5), fbmOpts));
 
+    // Use it to animate the waves 👇
     n += gln_GerstnerWave(p, A, uTime).xzy;
     n += gln_GerstnerWave(p, B, uTime).xzy * 0.5;
     n += gln_GerstnerWave(p, C, uTime).xzy * 0.25;
     n += gln_GerstnerWave(p, D, uTime).xzy * 0.2;
-
 
     return point + n;
 }
@@ -401,7 +406,7 @@ Annnd...we're moving! Time to paint
 
 ## Let's paint
 
-That looks great already, and this is totally optional, But there is one thing that will elevate it to the next level. Lets color the ocean based on height.
+That looks great already, and this is optional, But there's one thing that will elevate it to the next level. Let's color the ocean based on height.
 
 To do so, I will use `three-custom-shader-material`'s diffuse color override. To know more refer to the [Readme](https://github.com/FarazzShaikh/THREE-CustomShaderMaterial). But first, we must send the height data to the fragment shader using a `varying`
 
@@ -429,7 +434,7 @@ vec3 displace(vec3 point) {
     n += gln_GerstnerWave(p, C, uTime).xzy * 0.25;
     n += gln_GerstnerWave(p, D, uTime).xzy * 0.2;
 
-    // Set it to the verticle component of the noise
+    // 👋 Set it to the verticle component of the noise
     vHeight = n.z;
 
     return point + n;
@@ -508,9 +513,9 @@ const material = new CustomShaderMaterial({
 </div>
 <br />
 
-We're almost there! This looks good, right? But like the entire field of Computer Graphics, getting it absolutely perfect is a matter of fiddling with values.
+We're almost there! This looks good, right? But like the entire field of Computer Graphics, getting it absolutely perfect is a matter of fiddling with paramater values.
 
-Let's add some more parameters so we can file tune the look of the colors.
+Let's add some parameters so we can fine tune the look of the colors.
 
 ```js
 //...
@@ -558,7 +563,7 @@ varying float vHeight;
 uniform vec3 waterColor;
 uniform vec3 waterHighlight;
 
-// All our parameters
+// 👋 All our parameters
 uniform float offset;
 uniform float contrast;
 uniform float brightness;
@@ -599,11 +604,11 @@ vec3 calcColor() {
 
 > And were done! Beautiful!
 
-You might have noticed, I also added some sliders for you to play around with the values. [Here is a link to the demo](https://farazzshaikh.github.io/experiments/?src=/experiments/3D/Waves/index.html) if you'd like to play with the sliders on a bigger screen...
+You might have noticed, I also added some sliders for you to play around with the values. [Here is a link to the demo](https://farazzshaikh.github.io/experiments/?src=/experiments/3D/Stylized%20Ocean/index.html) if you'd like to play with it on a bigger screen...
 
 <br />
 <div align="center">
-  <a href="https://github.com/FarazzShaikh/experiments/tree/master/3D/Waves" target="_blank">
+  <a href="https://github.com/FarazzShaikh/experiments/tree/master/3D/Stylized%20Ocean" target="_blank">
     <img src={`https://github-readme-stats.vercel.app/api/pin/?username=farazzshaikh&repo=experiments&show_owner=true&theme=$buefy`} />
   </a>
 </div>

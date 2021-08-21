@@ -16,7 +16,7 @@ export function setup(canvas, IsWithControls = true, shadows = false) {
     canvas,
   });
   renderer.setPixelRatio(window.devicePixelRatio ? window.devicePixelRatio : 1);
-  renderer.setSize(canvas.parentElement.offsetWidth, canvas.offsetHeight);
+  renderer.setSize(canvas.parentElement.offsetWidth, canvas.offsetHeight, false);
 
   if (shadows) {
     renderer.shadowMap.enabled = true;
@@ -36,7 +36,7 @@ export function setup(canvas, IsWithControls = true, shadows = false) {
     () => {
       camera.aspect = canvas.parentElement.offsetWidth / canvas.offsetHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(canvas.parentElement.offsetWidth, canvas.offsetHeight);
+      renderer.setSize(canvas.parentElement.offsetWidth, canvas.offsetHeight, false);
     },
     false
   );
