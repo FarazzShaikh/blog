@@ -88,6 +88,13 @@ module.exports = {
               elements: [`h1`],
             },
           },
+          {
+            resolve: "gatsby-remark-external-links",
+            options: {
+              target: "_blank",
+              rel: "external",
+            },
+          },
           //   {
           //     resolve: `gatsby-remark-images-medium-zoom`, // Important!
           //     options: {
